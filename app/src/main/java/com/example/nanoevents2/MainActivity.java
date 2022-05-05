@@ -5,7 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.nanoevents2.utilities.JsonBuilder;
 import com.example.nanoevents2.utilities.MyAPISingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     TextView textView;
@@ -14,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         textView = findViewById(R.id.text);
-        textView.setText(MyAPISingleton.getInstance(getApplicationContext()).getAccessToken("alan133675@gmail.com","XNOtoTheMoon"));
+
 
     }
 }

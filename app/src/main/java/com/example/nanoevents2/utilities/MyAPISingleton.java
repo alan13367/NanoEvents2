@@ -71,19 +71,14 @@ public class MyAPISingleton {
     }
 
     //Will return the access token for further requests or null if failed
-    public String getAccessToken(String email,String password){
-        final String[] token = {null};
+    public JsonObjectRequest getAccessToken(String email,String password){
         JSONObject body = new JsonBuilder().add("email",email).add("password",password).json;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,login_url,body, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    token[0] = response.getString("accessToken");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+
             }
         }, new Response.ErrorListener() {
 
@@ -92,8 +87,7 @@ public class MyAPISingleton {
                 error.printStackTrace();
             }
         });
-        addToRequestQueue(jsonObjectRequest);
-        return token[0];
+        return jsonObjectRequest;
     }
 
     //Returns true or false wether it has failed to register the user or not

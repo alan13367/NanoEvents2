@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.nanoevents2.entities.User;
 import com.example.nanoevents2.utilities.JsonBuilder;
 import com.example.nanoevents2.utilities.MyAPISingleton;
+import com.example.nanoevents2.utilities.VolleyCallback;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -27,41 +28,37 @@ public class MainActivity extends AppCompatActivity {
     TextView textView;
     private String accessToken;
     private String userJson;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textView = findViewById(R.id.text);
-
         Bundle bundle = getIntent().getExtras();
         accessToken = bundle.getString("accessToken");
-        textView.setText(accessToken);
-        getUser(bundle.getString("email"));
-        System.out.println(userJson);
+
+        textView = findViewById(R.id.text);
+        getUser(bundle.getString("email"), new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                textView.setText(userJson);
+                user = new Gson().fromJson(userJson,User.class);
+            }
+        });
     }
 
 
-
-
-    public void getUser(String email){
+    public void getUser(String email, final VolleyCallback volleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 MyAPISingleton.searchUser+email,null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            JSONObject user = response.getJSONObject(0);
-                            userJson = user.toString();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                response -> {
+                    try {
+                        JSONObject user = response.getJSONObject(0);
+                        userJson = user.toString();
+                        volleyCallback.onSuccess();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-            }
-        }) {
+                }, error -> volleyCallback.onFailure()) {
             /**
              * Passing some request headers
              * */

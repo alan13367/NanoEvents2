@@ -112,7 +112,6 @@
         android:background="#ACA3A3"
         android:ems="10"
         android:hint="@string/image_link"
-        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpConfirmPasswordText" />

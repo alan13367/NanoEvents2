@@ -21,9 +21,10 @@ public class MyAPISingleton {
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private static Context ctx;
-    private final String baseurl = "http://puigmal.salle.url.edu/api/v2/";
-    private static final String users_url = "http://puigmal.salle.url.edu/api/v2/users";
-    private static final String login_url = "http://puigmal.salle.url.edu/api/v2/users/login";
+    public final String baseurl = "http://puigmal.salle.url.edu/api/v2/";
+    public static final String login_url = "http://puigmal.salle.url.edu/api/v2/users/login";
+    public static final String signup_url = "http://puigmal.salle.url.edu/api/v2/users";
+    public static final String searchUser = "http://puigmal.salle.url.edu/api/v2/users/search?s=";
 
     private MyAPISingleton(Context context) {
         ctx = context;
@@ -70,48 +71,4 @@ public class MyAPISingleton {
         return imageLoader;
     }
 
-    //Will return the access token for further requests or null if failed
-    public JsonObjectRequest getAccessToken(String email,String password){
-        JSONObject body = new JsonBuilder().add("email",email).add("password",password).json;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,login_url,body, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-        return jsonObjectRequest;
-    }
-
-    //Returns true or false wether it has failed to register the user or not
-    public boolean signUp(String name,String last_name,String email,String password, String image){
-        final boolean[] responseBool = new boolean[1];
-        JSONObject body = new JsonBuilder().add("name",name).add("last_name",last_name)
-                .add("email",email).add("password",password).add("image",image).json;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,users_url,body, new Response.Listener<JSONObject>() {
-
-            @Override
-            public void onResponse(JSONObject response) {
-                responseBool[0] = true;
-
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                error.printStackTrace();
-            }
-        });
-
-        addToRequestQueue(jsonObjectRequest);
-        return responseBool[0];
-    }
 }

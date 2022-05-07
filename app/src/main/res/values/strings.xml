@@ -13,6 +13,6 @@
     <string name="description">Description</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="create_account">Create Account</string>
-    <string name="email">email</string>
+    <string name="email">Email</string>
     <string name="image_link">image url</string>
 </resources>

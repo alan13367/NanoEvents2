@@ -3,6 +3,7 @@ package com.example.nanoevents2.utilities;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.LruCache;
+import android.view.View;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,7 +26,7 @@ public class MyAPISingleton {
     public static final String login_url = "http://puigmal.salle.url.edu/api/v2/users/login";
     public static final String signup_url = "http://puigmal.salle.url.edu/api/v2/users";
     public static final String searchUser = "http://puigmal.salle.url.edu/api/v2/users/search?s=";
-
+    private String accessToken;
     private MyAPISingleton(Context context) {
         ctx = context;
         requestQueue = getRequestQueue();

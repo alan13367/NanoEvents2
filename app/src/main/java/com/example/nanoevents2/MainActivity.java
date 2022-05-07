@@ -1,7 +1,10 @@
 package com.example.nanoevents2;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -30,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private String accessToken;
     private String userJson;
     private User user;
+    private DrawerLayout drawer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
         //textView = findViewById(R.id.text);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
         getUser(bundle.getString("email"), new VolleyCallback() {
             @Override
@@ -50,6 +58,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if(drawer.isDrawerOpen(GravityCompat.START)){
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            super.onBackPressed();
+        }
+
+    }
 
     public void getUser(String email, final VolleyCallback volleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
@@ -77,3 +94,4 @@ public class MainActivity extends AppCompatActivity {
         MyAPISingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonArrayRequest);
     }
 }
+

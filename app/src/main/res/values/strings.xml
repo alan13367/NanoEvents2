@@ -15,4 +15,6 @@
     <string name="create_account">Create Account</string>
     <string name="email">Email</string>
     <string name="image_link">image url</string>
+    <string name="navigation_drawer_open" >Open navigation drawer</string>
+    <string name="navigation_drawer_close" >Close navigation drawer</string>
 </resources>

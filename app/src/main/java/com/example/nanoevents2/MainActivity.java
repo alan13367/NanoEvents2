@@ -1,6 +1,7 @@
 package com.example.nanoevents2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.widget.TextView;
@@ -36,7 +37,10 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         accessToken = bundle.getString("accessToken");
 
-        textView = findViewById(R.id.text);
+        //textView = findViewById(R.id.text);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         getUser(bundle.getString("email"), new VolleyCallback() {
             @Override
             public void onSuccess() {

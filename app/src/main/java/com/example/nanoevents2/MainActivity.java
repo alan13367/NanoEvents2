@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         getUser(bundle.getString("email"), new VolleyCallback() {
             @Override
             public void onSuccess() {
-                textView.setText(userJson);
+               // textView.setText(userJson);
                 user = new Gson().fromJson(userJson,User.class);
             }
         });

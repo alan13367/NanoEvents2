@@ -1,4 +1,4 @@
-package com.example.nanoevents2.utilities;
+package com.example.nanoevents2.model.utilities;
 
 import org.json.JSONException;
 import org.json.JSONObject;

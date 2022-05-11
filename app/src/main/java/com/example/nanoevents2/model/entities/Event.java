@@ -1,4 +1,4 @@
-package com.example.nanoevents2.entities;
+package com.example.nanoevents2.model.entities;
 
 public class Event {
     private int id;

@@ -1,10 +1,12 @@
-package com.example.nanoevents2;
+package com.example.nanoevents2.view;
 
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.example.nanoevents2.R;
 
 public class SplashActivity extends Activity {
 

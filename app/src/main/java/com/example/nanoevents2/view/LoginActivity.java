@@ -1,4 +1,4 @@
-package com.example.nanoevents2;
+package com.example.nanoevents2.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,9 +13,10 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.nanoevents2.utilities.JsonBuilder;
-import com.example.nanoevents2.utilities.MyAPISingleton;
-import com.example.nanoevents2.utilities.VolleyCallback;
+import com.example.nanoevents2.R;
+import com.example.nanoevents2.model.utilities.JsonBuilder;
+import com.example.nanoevents2.persistence.MyAPISingleton;
+import com.example.nanoevents2.persistence.UserVolleyCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,7 +27,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText pwdIn;
     private Button logInBtn;
     private Button signUpBtn;
-    private ProgressBar progressBar;
 
 
 
@@ -41,19 +41,19 @@ public class LoginActivity extends AppCompatActivity {
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                login(new VolleyCallback() {
+                MyAPISingleton.login(getApplicationContext(),emailText.getText().toString()
+                        ,pwdIn.getText().toString(), new UserVolleyCallback() {
                     @Override
-                    public void onSuccess() {
+                    public void onSuccess(String response) {
+                        accessToken = response;
                         loginSuccess();
                     }
-
                     @Override
                     public void onFailure() {
                         Toast.makeText(getApplicationContext(),"There has been an error in checking " +
                                 "your credentials, please try again.",Toast.LENGTH_LONG).show();
                     }
                 });
-                progressBar.setVisibility(View.GONE);
 
             }
         });
@@ -67,7 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
-        progressBar = findViewById(R.id.loginPB);
     }
 
     private void loginSuccess() {
@@ -79,30 +78,5 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void login(final VolleyCallback volleyCallback){
-        progressBar.setVisibility(View.VISIBLE);
-        String email = emailText.getText().toString();
-        String password = pwdIn.getText().toString();
-        if(!email.isEmpty() && !password.isEmpty()){
-            JSONObject body = new JsonBuilder().add("email",email).add("password",password).json;
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,MyAPISingleton.login_url,body,
-                    response ->{
-                        try {
-                            accessToken = response.getString("accessToken");
-                            volleyCallback.onSuccess();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }, error ->{
-                error.printStackTrace();
-                volleyCallback.onFailure();
-            });
-
-            MyAPISingleton.getInstance(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-        }else {
-            volleyCallback.onFailure();
-        }
-
-    }
 }

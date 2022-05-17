@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.eventListFragment;
+import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.MyAPISingleton;
+import com.example.nanoevents2.persistence.UserVolleyCallback;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView textView;
@@ -24,6 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String userJson;
     private User user;
     private DrawerLayout drawer;
+    private ArrayList<Event> eventsList;
+    private String responseString;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +48,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        MyAPISingleton.getUser(getApplicationContext(),bundle.getString("email"),
-                response -> user = new Gson().fromJson(response,User.class));
+        MyAPISingleton.getUserByEmail(getApplicationContext(), bundle.getString("email"), new UserVolleyCallback() {
+            @Override
+            public void onSuccess(String response, Object o) {
+                user = (User) o;
+            }
+        });
+
     }
 
     @Override
@@ -56,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
+
 
     @Override
     public void onBackPressed() {

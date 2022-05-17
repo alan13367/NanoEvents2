@@ -13,6 +13,11 @@ public class Event {
     private int n_participators;
     private String type;
 
+    public static final int ALL_EVENTS = 0;
+    public static final int ONGOING_EVENT = 1;
+    public static final int FUTURE_EVENT = 2;
+    public static final int FINISHED_EVENT = 3;
+
     public Event(String name, String description, String image) {
         this.name = name;
         this.description = description;
@@ -29,5 +34,9 @@ public class Event {
 
     public String getImage() {
         return image;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

@@ -25,9 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     private String accessToken;
     private EditText emailText;
     private EditText pwdIn;
-    private Button logInBtn;
-    private Button signUpBtn;
-
 
 
     @Override
@@ -37,14 +34,14 @@ public class LoginActivity extends AppCompatActivity {
         emailText = findViewById(R.id.emailIn);
         pwdIn = findViewById(R.id.pwdIn);
 
-        logInBtn = findViewById(R.id.signInBtn);
+        Button logInBtn = findViewById(R.id.signInBtn);
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 MyAPISingleton.login(getApplicationContext(),emailText.getText().toString()
                         ,pwdIn.getText().toString(), new UserVolleyCallback() {
                     @Override
-                    public void onSuccess(String response) {
+                    public void onSuccess(String response,Object o) {
                         accessToken = response;
                         loginSuccess();
                     }
@@ -58,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        signUpBtn = findViewById(R.id.signUpBtn);
+        Button signUpBtn = findViewById(R.id.signUpBtn);
         signUpBtn.setPaintFlags(signUpBtn.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); // underline sign up button
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override

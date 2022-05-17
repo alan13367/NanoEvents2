@@ -19,4 +19,13 @@ public class JsonBuilder {
         return this;
     }
 
+    public JsonBuilder add(String key, int value) {
+        try {
+            json.put(key,value);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return this;
+    }
+
 }

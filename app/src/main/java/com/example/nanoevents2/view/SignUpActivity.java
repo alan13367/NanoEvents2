@@ -52,16 +52,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             , getEditTextString(imageUrl), new UserVolleyCallback() {
 
                         @Override
-                        public void onSuccess(String response) {
+                        public void onSuccess(String response,Object o) {
                             MyAPISingleton.login(getApplicationContext(), getEditTextString(email), getEditTextString(password)
-                                    , response1 -> {
-                                        accessToken = response1;
-                                        Toast.makeText(getApplicationContext(),"SignUp Successful!",Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getBaseContext(),MainActivity.class);
-                                        intent.putExtra("accessToken",accessToken);
-                                        intent.putExtra("email",getEditTextString(email));
-                                        startActivity(intent);
-                                        finish();
+                                    , new UserVolleyCallback() {
+                                        @Override
+                                        public void onSuccess(String response, Object o) {
+                                            accessToken = response;
+                                            Toast.makeText(getApplicationContext(),"SignUp Successful!",Toast.LENGTH_LONG).show();
+                                            Intent intent = new Intent(getBaseContext(),MainActivity.class);
+                                            intent.putExtra("accessToken",accessToken);
+                                            intent.putExtra("email",getEditTextString(email));
+                                            startActivity(intent);
+                                            finish();
+                                        }
                                     });
                         }
 

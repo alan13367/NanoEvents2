@@ -25,6 +25,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyAPISingleton {
@@ -96,7 +97,8 @@ public class MyAPISingleton {
     }
 
 
-    public static void login(Context context,String email,String password,final UserVolleyCallback userVolleyCallback){
+    public static void login(Context context,String email,String password
+            , final UserVolleyCallback userVolleyCallback){
         if(!email.isEmpty() && !password.isEmpty()){
             JSONObject body = new JsonBuilder().add("email",email).add("password",password).json;
 
@@ -115,8 +117,17 @@ public class MyAPISingleton {
                                 getAllFutureEvents(context, new EventVolleyCallback() {
                                     @Override
                                     public void onSuccess(String response, Object o) {
-                                        DataManager.getInstance().setEventsList((ArrayList<Event>)o);
-                                        userVolleyCallback.onSuccess(accessToken,null);
+                                        DataManager.getInstance()
+                                                .setFutureEventsList((ArrayList<Event>)o);
+                                        getFriendRequests(context, new UserVolleyCallback() {
+                                            @Override
+                                            public void onSuccess(String response, Object o) {
+                                                DataManager.getInstance()
+                                                        .setFriendRequestsList((ArrayList<User>)o);
+                                                userVolleyCallback.onSuccess(accessToken,null);
+                                            }
+                                        });
+
                                     }
                                 });
 
@@ -136,7 +147,12 @@ public class MyAPISingleton {
 
     public static void signUp(Context context,String name, String last_name, String email
             , String password, String imagePath, final UserVolleyCallback userVolleyCallback){
-        JSONObject body = new JsonBuilder().add("name",name).add("last_name",last_name).add("email",email).add("password",password).add("image",imagePath).json;
+        JSONObject body = new JsonBuilder()
+                .add("name",name)
+                .add("last_name",last_name)
+                .add("email",email)
+                .add("password",password)
+                .add("image",imagePath).json;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,users_base_url
                 ,body, response ->{

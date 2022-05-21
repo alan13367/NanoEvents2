@@ -116,6 +116,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/signUpConfirmPasswordText" />
 
+    <ProgressBar
+        android:id="@+id/pb_signUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/imageLinkSignUp"
+        android:visibility="gone"
+        />
+
 
     <Button
         android:id="@+id/createAccBtn"
@@ -128,6 +136,6 @@
         android:text="@string/create_account"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageLinkSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/pb_signUp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

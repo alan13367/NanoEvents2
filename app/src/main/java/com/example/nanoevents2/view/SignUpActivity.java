@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -21,6 +22,7 @@ import org.json.JSONObject;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     private EditText email,name,last_name,password,confirm_password,imageUrl;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         password = findViewById(R.id.signUpPasswordText);
         confirm_password = findViewById(R.id.signUpConfirmPasswordText);
         imageUrl = findViewById(R.id.imageLinkSignUp);
-
+        progressBar = findViewById(R.id.pb_signUp);
     }
 
     @Override
@@ -44,6 +46,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         switch (view.getId()){
             case R.id.createAccBtn:
                 if(fieldsCorrect()){
+                    progressBar.setVisibility(View.VISIBLE);
                     MyAPISingleton.signUp(getApplicationContext(),getEditTextString(name)
                             , getEditTextString(last_name), getEditTextString(email), getEditTextString(password)
                             , getEditTextString(imageUrl), new UserVolleyCallback() {
@@ -64,6 +67,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
                         @Override
                         public void onFailure(){
+                            progressBar.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(),"Error Creating Account. Email is already registered",Toast.LENGTH_LONG).show();
                         }
                     });

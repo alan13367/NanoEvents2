@@ -8,11 +8,13 @@ import java.util.List;
 
 public class DataManager {
     private static DataManager instance;
-    private List<Event> eventsList;
+    private List<Event> futureEventsList;
     private User user;
+    private List<User> friendRequests;
 
     private DataManager(){
-        eventsList = new ArrayList<>();
+        futureEventsList = new ArrayList<>();
+        friendRequests = new ArrayList<>();
     }
 
     public static DataManager getInstance(){
@@ -22,19 +24,27 @@ public class DataManager {
         return instance;
     }
 
-    public List<Event> getEventsList(){
-        return eventsList;
+    public List<Event> getFutureEventsList(){
+        return futureEventsList;
     }
 
-    public void setEventsList(List<Event> events){
-        eventsList = events;
+    public void setFutureEventsList(List<Event> futureEventsList){
+        this.futureEventsList = futureEventsList;
     }
 
     public User getUser(){
         return user;
     }
 
-    public void setUser(User u){
-        user = u;
+    public void setUser(User user){
+        this.user = user;
+    }
+
+    public List<User> getFriendRequestsList(){
+        return friendRequests;
+    }
+
+    public void setFriendRequestsList(List<User> friendRequests){
+        this.friendRequests = friendRequests;
     }
 }

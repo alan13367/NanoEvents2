@@ -22,10 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity {
-    private String accessToken;
     private EditText emailText;
     private EditText pwdIn;
-
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,20 +32,22 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         emailText = findViewById(R.id.emailIn);
         pwdIn = findViewById(R.id.pwdIn);
+        progressBar = findViewById(R.id.pb_login);
 
         Button logInBtn = findViewById(R.id.signInBtn);
         logInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                progressBar.setVisibility(View.VISIBLE);
                 MyAPISingleton.login(getApplicationContext(),emailText.getText().toString()
                         ,pwdIn.getText().toString(), new UserVolleyCallback() {
                     @Override
                     public void onSuccess(String response,Object o) {
-                        accessToken = response;
                         loginSuccess();
                     }
                     @Override
                     public void onFailure() {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"There has been an error in checking " +
                                 "your credentials, please try again.",Toast.LENGTH_LONG).show();
                     }
@@ -69,8 +70,6 @@ public class LoginActivity extends AppCompatActivity {
     private void loginSuccess() {
         Toast.makeText(getApplicationContext(),"Login Successful!",Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getBaseContext(),MainActivity.class);
-        intent.putExtra("accessToken",accessToken);
-        intent.putExtra("email",emailText.getText().toString());
         startActivity(intent);
         finish();
     }

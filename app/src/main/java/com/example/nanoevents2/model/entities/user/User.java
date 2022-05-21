@@ -8,6 +8,10 @@ public class User {
     private String password;
     private String image;
 
+    public static final int ACCEPT_REQUEST = 2;
+    public static final int CREATE_REQUEST = 1;
+    public static final int REJECT_REQUEST = 3;
+
     public User(int id,String name, String last_name, String email, String password, String image) {
         this.id = id;
         this.name = name;

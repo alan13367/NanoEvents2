@@ -20,17 +20,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button createAccBtn;
     private EditText email,name,last_name,password,confirm_password,imageUrl;
-    private String userConfirm;
-    private String accessToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        createAccBtn = findViewById(R.id.createAccBtn);
+        Button createAccBtn = findViewById(R.id.createAccBtn);
         createAccBtn.setOnClickListener(this);
 
         email = findViewById(R.id.signUpEmailText);
@@ -57,11 +54,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     , new UserVolleyCallback() {
                                         @Override
                                         public void onSuccess(String response, Object o) {
-                                            accessToken = response;
                                             Toast.makeText(getApplicationContext(),"SignUp Successful!",Toast.LENGTH_LONG).show();
                                             Intent intent = new Intent(getBaseContext(),MainActivity.class);
-                                            intent.putExtra("accessToken",accessToken);
-                                            intent.putExtra("email",getEditTextString(email));
                                             startActivity(intent);
                                             finish();
                                         }

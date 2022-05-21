@@ -11,7 +11,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.nanoevents2.model.entities.Event;
+import com.example.nanoevents2.model.entities.Message;
 import com.example.nanoevents2.model.entities.user.User;
+import com.example.nanoevents2.model.entities.user.UserAssistance;
 import com.example.nanoevents2.model.entities.user.UserStatistics;
 import com.example.nanoevents2.model.utilities.JsonBuilder;
 import com.google.gson.Gson;
@@ -30,17 +32,23 @@ public class MyAPISingleton {
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
     private static Context ctx;
+    //API Specific
     private static String accessToken;
-    public final String baseurl = "http://puigmal.salle.url.edu/api/v2/";
+    private final String baseurl = "http://puigmal.salle.url.edu/api/v2/";
     //Users
-    public static final String login_url = "http://puigmal.salle.url.edu/api/v2/users/login";
-    public static final String users_base_url = "http://puigmal.salle.url.edu/api/v2/users";
-    public static final String searchUser = "http://puigmal.salle.url.edu/api/v2/users/search?s=";
+    private static final String login_url = "http://puigmal.salle.url.edu/api/v2/users/login";
+    private static final String users_base_url = "http://puigmal.salle.url.edu/api/v2/users";
+    private static final String searchUser = "http://puigmal.salle.url.edu/api/v2/users/search?s=";
 
     //Events
-    public static final String events_base_url = "http://puigmal.salle.url.edu/api/v2/events";
-    public static final String best_events_url = "http://puigmal.salle.url.edu/api/v2/events/best";
-    public static final String searchEventsUrl="http://puigmal.salle.url.edu/api/v2/events/search?";
+    private static final String events_base_url = "http://puigmal.salle.url.edu/api/v2/events";
+    private static final String best_events_url = "http://puigmal.salle.url.edu/api/v2/events/best";
+
+    //Messages
+    private static final String messages_base_url = "http://puigmal.salle.url.edu/api/v2/messages";
+
+    //Friends
+    private static final String friends_base_url = "http://puigmal.salle.url.edu/api/v2/friends";
 
     private MyAPISingleton(Context context) {
         ctx = context;
@@ -96,10 +104,24 @@ public class MyAPISingleton {
                     ,body, response ->{
                         try {
                             accessToken = response.getString("accessToken");
-                            userVolleyCallback.onSuccess(accessToken,null);
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        getUserByEmail(context, email, new UserVolleyCallback() {
+                            @Override
+                            public void onSuccess(String response, Object o) {
+                                DataManager.getInstance().setUser((User) o);
+                                getAllFutureEvents(context, new EventVolleyCallback() {
+                                    @Override
+                                    public void onSuccess(String response, Object o) {
+                                        DataManager.getInstance().setEventsList((ArrayList<Event>)o);
+                                        userVolleyCallback.onSuccess(accessToken,null);
+                                    }
+                                });
+
+                            }
+                        });
                     }, error ->{
                 error.printStackTrace();
                 userVolleyCallback.onFailure();
@@ -219,7 +241,7 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void getEventsFromUser(Context context,int userId,int eventStatus,final EventsVolleyCallback eventsVolleyCallback){
+    public static void getEventsFromUser(Context context,int userId,int eventStatus,final EventVolleyCallback eventVolleyCallback){
         String url = users_base_url+"/"+userId+"/events";
         switch(eventStatus){
             case Event.ALL_EVENTS:
@@ -240,9 +262,9 @@ public class MyAPISingleton {
                 url,null,
                 response -> {
                     Event[] eventArray = new Gson().fromJson(response.toString(), (Type) Event[].class);
-                    eventsVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
+                    eventVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -259,7 +281,7 @@ public class MyAPISingleton {
     }
 
     public static void getUserEventsAssistance(Context context, int userId, int eventStatus
-            , final EventsVolleyCallback eventsVolleyCallback){
+            , final EventVolleyCallback eventVolleyCallback){
         String url = users_base_url+"/"+userId+"/assistances";
         switch(eventStatus){
             case Event.ALL_EVENTS:
@@ -277,9 +299,9 @@ public class MyAPISingleton {
                 url,null,
                 response -> {
                     Event[] eventArray = new Gson().fromJson(response.toString(), (Type) Event[].class);
-                    eventsVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
+                    eventVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -329,7 +351,7 @@ public class MyAPISingleton {
 
     public static void createEvent(Context context,String name,String imageUrl,String location
             ,String description,String startDate,String endDate,int numParticipants,String type
-            ,final EventsVolleyCallback eventsVolleyCallback){
+            ,final EventVolleyCallback eventVolleyCallback){
 
         JSONObject body = new JsonBuilder()
                 .add("name",name)
@@ -352,35 +374,35 @@ public class MyAPISingleton {
                 e.printStackTrace();
             }
             String finalDate = date;
-            getEventsFromUser(context, owner, Event.ALL_EVENTS, new EventsVolleyCallback() {
+            getEventsFromUser(context, owner, Event.ALL_EVENTS, new EventVolleyCallback() {
                 @Override
                 public void onSuccess(String jsonResponse, Object o) {
                     ArrayList<Event> events= (ArrayList<Event>)o;
                     for (Event e:events){
                         if (e.getDate().equals(finalDate)){
-                            eventsVolleyCallback.onSuccess("Event Created",e);
+                            eventVolleyCallback.onSuccess("Event Created",e);
                         }
                     }
                 }
             });
-            eventsVolleyCallback.onSuccess(response.toString(),null);
+            eventVolleyCallback.onSuccess(response.toString(),null);
         }, error ->{
             error.printStackTrace();
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         });
 
         getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
 
-    public static void getAllFutureEvents(Context context,final EventsVolleyCallback eventsVolleyCallback){
+    public static void getAllFutureEvents(Context context,final EventVolleyCallback eventVolleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 events_base_url,null,
                 response -> {
                     Event[] eventArray = new Gson().fromJson(response.toString(), (Type) Event[].class);
-                    eventsVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
+                    eventVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -396,19 +418,19 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonArrayRequest);
     }
 
-    public static void getEventById(Context context, int id, final EventsVolleyCallback eventsVolleyCallback){
+    public static void getEventById(Context context, int id, final EventVolleyCallback eventVolleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 events_base_url+"/"+id,null,
                 response -> {
                     try {
                         JSONObject jsonObject = response.getJSONObject(0);
-                        eventsVolleyCallback.onSuccess(response.toString()
+                        eventVolleyCallback.onSuccess(response.toString()
                                 ,new Gson().fromJson(jsonObject.toString(),Event.class));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -424,14 +446,14 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonArrayRequest);
     }
 
-    public static void getBestEvents(Context context,final EventsVolleyCallback eventsVolleyCallback){
+    public static void getBestEvents(Context context,final EventVolleyCallback eventVolleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 best_events_url,null,
                 response -> {
                     Event[] eventArray = new Gson().fromJson(response.toString(), (Type) Event[].class);
-                    eventsVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
+                    eventVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -448,7 +470,7 @@ public class MyAPISingleton {
     }
 
     public static void searchEvents(Context context,String keywordQuery,String locationQuery
-            ,String dateQuery,final EventsVolleyCallback eventsVolleyCallback){
+            ,String dateQuery,final EventVolleyCallback eventVolleyCallback){
         String url = String.format("http://puigmal.salle.url.edu/api/v2/events/search?location=%1$s&date=%2$s&keyword=%3$s"
                 ,locationQuery,dateQuery,keywordQuery);
 
@@ -456,9 +478,9 @@ public class MyAPISingleton {
                 url,null,
                 response -> {
                     Event[] eventArray = new Gson().fromJson(response.toString(), (Type) Event[].class);
-                    eventsVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
+                    eventVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(eventArray)));
                 }, error -> {
-            eventsVolleyCallback.onFailure();
+            eventVolleyCallback.onFailure();
         }) {
             /**
              * Passing some request headers
@@ -473,6 +495,328 @@ public class MyAPISingleton {
         };
         getInstance(context).addToRequestQueue(jsonArrayRequest);
     }
+
+    public static void editEvent(Context context,int eventId,JSONObject requestBody
+            ,final EventVolleyCallback eventVolleyCallback){
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
+                events_base_url+"/"+eventId,requestBody, response -> {
+                    eventVolleyCallback.onSuccess(response.toString(),new Gson().fromJson(response.toString(),Event.class));
+                }, error -> {
+                    eventVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void deleteEvent(Context context,int eventId,final EventVolleyCallback eventVolleyCallback){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE,
+                events_base_url+"/"+eventId,null, response -> {
+            eventVolleyCallback.onSuccess(response.toString(),null);
+        }, error -> {
+            eventVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void getUsersEventAssistances(Context context, int eventId,final UserVolleyCallback userVolleyCallback){
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
+                events_base_url+"/"+eventId+"/assistances",null,
+                response -> {
+                    ArrayList<UserAssistance> userAssistances = new ArrayList<>();
+                    for(int i = 0;i<response.length();i++){
+                        try {
+                            JSONObject o = response.getJSONObject(i);
+                            int userId = o.getInt("id");
+                            String name = o.getString("name");
+                            String last_name = o.getString("last_name");
+                            String email = o.getString("email");
+                            int puntuation = o.getInt("puntuation");
+                            String comentary = o.getString("comentary");
+                            userAssistances.add(new UserAssistance(userId,name,last_name,email,puntuation,comentary,eventId));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(userAssistances));
+                }, error -> {
+            userVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public static void getUserAssistanceByEvent(Context context, int eventId,int userId
+            ,final UserVolleyCallback userVolleyCallback){
+
+        getUsersEventAssistances(context, eventId, new UserVolleyCallback() {
+            @Override
+            public void onSuccess(String response, Object o) {
+                ArrayList<UserAssistance> userAssistances = (ArrayList<UserAssistance>) o;
+                for (UserAssistance u:userAssistances){
+                    if(u.getId() == userId){
+                        userVolleyCallback.onSuccess("Success",u);
+                    }
+                }
+
+            }
+
+            @Override
+            public void onFailure() {
+                userVolleyCallback.onFailure();
+            }
+        });
+
+    }
+
+    public static void assistToEventById(Context context,int eventId,final EventVolleyCallback eventVolleyCallback){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                events_base_url+"/"+eventId+"/assistances",null, response -> {
+            eventVolleyCallback.onSuccess("Assistance Confirmed",null);
+        }, error -> {
+            eventVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void editEventAssistanceById(Context context,int eventId,int puntuation
+            ,String commentary,final EventVolleyCallback eventVolleyCallback){
+        JsonBuilder builder = new JsonBuilder();
+        if(puntuation != -1){
+            builder.add("puntuation",puntuation);
+        }
+        if (commentary != null){
+            builder.add("comentary",commentary);
+        }
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
+                events_base_url+"/"+eventId+"/assistances",builder.json, response -> {
+            eventVolleyCallback.onSuccess("Assistance Edited Successfully",null);
+        }, error -> {
+            eventVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void deleteEventAssistanceById(Context context,int eventId, final EventVolleyCallback eventVolleyCallback){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE,
+                events_base_url+"/"+eventId+"/assistances",null, response -> {
+            eventVolleyCallback.onSuccess("Assistance Deleted Successfully",null);
+        }, error -> {
+            eventVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void sendMessageToUser(Context context,int recieverId,String messageContent
+            ,final MessageVolleyCallback messageVolleyCallback){
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST,
+                messages_base_url,new JsonBuilder().add("content",messageContent)
+                .add("user_id_send",DataManager.getInstance().getUser().getId())
+                .add("user_id_recived",recieverId).json, response -> {
+            messageVolleyCallback.onSuccess(response.toString(),new Gson()
+                    .fromJson(response.toString(), Message.class));
+        }, error -> {
+            messageVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+    public static void getUsersMessagingLoggedUser(Context context,final UserVolleyCallback userVolleyCallback){
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,
+                messages_base_url+"/users",null
+                , response -> {
+                    ArrayList<User> userArrayList = new ArrayList<>();
+                    for(int i = 0;i<response.length();i++){
+                        try {
+                            JSONObject object = response.getJSONObject(i);
+                            int id = object.getInt("id");
+                            String name = object.getString("name");
+                            String last_name = object.getString("last_name");
+                            String email = object.getString("email");
+                            String image = object.getString("image");
+                            userArrayList.add(new User(id,name,last_name,email,image));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    userVolleyCallback.onSuccess(response.toString(),userArrayList);
+        }, error -> {
+            userVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public static void getMessagesChatFromUser(Context context,int userId
+            ,final MessageVolleyCallback messageVolleyCallback){
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,
+                messages_base_url+"/users",null
+                , response -> {
+            Message[] messages = new Gson().fromJson(response.toString(),(Type) Message[].class);
+
+            messageVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(messages)));
+        }, error -> {
+            messageVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public static void getFriendRequests(Context context, final UserVolleyCallback userVolleyCallback){
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, friends_base_url
+                ,null, response -> {
+
+            ArrayList<User> users = new ArrayList<>();
+            for(int i = 0;i<response.length();i++){
+                try {
+                    JSONObject o = response.getJSONObject(i);
+                    users.add(new User(o.getInt("id"),o.getString("name")
+                            ,o.getString("last_name"),o.getString("email")
+                            ,o.getString("image")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(users)));
+        }, error -> {
+            userVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public static void manageFriendRequests(Context context,int requestUserId ,final int requestAction
+            ,final UserVolleyCallback userVolleyCallback){
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(requestAction,
+                friends_base_url+requestUserId,null, response -> {
+            userVolleyCallback.onSuccess(response.toString(),null);
+        }, error -> {
+            userVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
+
+
 
 
 

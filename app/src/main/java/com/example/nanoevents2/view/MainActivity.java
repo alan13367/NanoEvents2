@@ -15,6 +15,7 @@ import com.example.nanoevents2.R;
 import com.example.nanoevents2.eventListFragment;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
+import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.persistence.UserVolleyCallback;
 import com.google.android.material.navigation.NavigationView;
@@ -23,8 +24,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView textView;
-    private String accessToken;
-    private String userJson;
     private User user;
     private DrawerLayout drawer;
     private ArrayList<Event> eventsList;
@@ -33,8 +32,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bundle bundle = getIntent().getExtras();
-        accessToken = bundle.getString("accessToken");
 
         //textView = findViewById(R.id.text);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -47,14 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        MyAPISingleton.getUserByEmail(getApplicationContext(), bundle.getString("email"), new UserVolleyCallback() {
-            @Override
-            public void onSuccess(String response, Object o) {
-                user = (User) o;
-            }
-        });
-
+        User u = DataManager.getInstance().getUser();
+        System.out.println(u.getId());
     }
 
     @Override

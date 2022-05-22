@@ -8,13 +8,15 @@ import java.util.List;
 
 public class DataManager {
     private static DataManager instance;
-    private List<Event> futureEventsList;
     private User user;
+    private List<Event> futureEventsList;
     private List<User> friendRequests;
+    private List<User> usersMyMessagesUsers;
 
     private DataManager(){
         futureEventsList = new ArrayList<>();
         friendRequests = new ArrayList<>();
+        usersMyMessagesUsers = new ArrayList<>();
     }
 
     public static DataManager getInstance(){
@@ -46,5 +48,13 @@ public class DataManager {
 
     public void setFriendRequestsList(List<User> friendRequests){
         this.friendRequests = friendRequests;
+    }
+
+    public List<User> getUsersMyMessagesUsers() {
+        return usersMyMessagesUsers;
+    }
+
+    public void setUsersMyMessagesUsers(List<User> usersMyMessagesUsers) {
+        this.usersMyMessagesUsers = usersMyMessagesUsers;
     }
 }

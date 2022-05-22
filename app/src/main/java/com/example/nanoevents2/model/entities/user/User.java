@@ -21,6 +21,11 @@ public class User {
         this.image = image;
     }
 
+    public User(String name,String image){
+        this.name = name;
+        this.image = image;
+    }
+
     public User(int id,String name, String last_name, String email, String image) {
         this.id = id;
         this.name = name;

@@ -118,13 +118,26 @@ public class MyAPISingleton {
                                     @Override
                                     public void onSuccess(String response, Object o) {
                                         DataManager.getInstance()
-                                                .setFutureEventsList((ArrayList<Event>)o);
+                                                .setFutureEventsList(new ArrayList<>((ArrayList<Event>)o));
                                         getFriendRequests(context, new UserVolleyCallback() {
                                             @Override
                                             public void onSuccess(String response, Object o) {
                                                 DataManager.getInstance()
-                                                        .setFriendRequestsList((ArrayList<User>)o);
-                                                userVolleyCallback.onSuccess(accessToken,null);
+                                                        .setFriendRequestsList(new ArrayList<>((ArrayList<User>)o));
+                                                getUsersMessagingLoggedUser(context, new UserVolleyCallback() {
+                                                    @Override
+                                                    public void onSuccess(String response, Object o) {
+                                                        DataManager.getInstance()
+                                                                .setUsersMyMessagesUsers(new ArrayList<>((ArrayList<User>)o));
+                                                        userVolleyCallback.onSuccess(accessToken,null);
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure() {
+                                                        userVolleyCallback.onSuccess(accessToken,null);
+                                                    }
+                                                });
+
                                             }
                                         });
 
@@ -714,7 +727,7 @@ public class MyAPISingleton {
     }
 
     public static void getUsersMessagingLoggedUser(Context context,final UserVolleyCallback userVolleyCallback){
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
                 messages_base_url+"/users",null
                 , response -> {
                     ArrayList<User> userArrayList = new ArrayList<>();
@@ -777,7 +790,7 @@ public class MyAPISingleton {
 
     public static void getFriendRequests(Context context, final UserVolleyCallback userVolleyCallback){
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, friends_base_url
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, friends_base_url
                 ,null, response -> {
 
             ArrayList<User> users = new ArrayList<>();

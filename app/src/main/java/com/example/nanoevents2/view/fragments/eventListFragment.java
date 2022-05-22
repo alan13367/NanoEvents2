@@ -1,4 +1,4 @@
-package com.example.nanoevents2;
+package com.example.nanoevents2.view.fragments;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.nanoevents2.Adapters.EventRV_Adapter;
 
+import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
 
 import java.util.ArrayList;

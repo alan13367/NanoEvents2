@@ -8,17 +8,21 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:layout_height="176dp">
     
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/ic_launcher_round"/>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/userProfileImage"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:paddingBottom="10dp"
+        android:src="@mipmap/ic_launcher_round"
+        />
     <TextView
+        android:id="@+id/nameDrawerHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:text="Text1"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
     <TextView
+        android:id="@+id/emailDrawerHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Text2"/>

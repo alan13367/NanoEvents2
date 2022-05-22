@@ -2,17 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+
     <group android:checkableBehavior="single">
         <item android:id="@+id/nav_yourProfile"
-            android:title = "Your Profile"/>
+            android:title = "@string/your_profile"/>
         <item android:id="@+id/nav_exploreEvents"
-            android:title = "Explore Events"/>
+            android:title = "@string/explore_events"/>
         <item android:id="@+id/nav_MyEvents"
-            android:title = "My Events"/>
+            android:title = "@string/my_events"/>
         <item android:id="@+id/nav_MyMessages"
-            android:title = "My Messages"/>
+            android:title = "@string/my_messages"/>
         <item android:id="@+id/nav_SearchUsers"
-            android:title = "Search Users"/>
+            android:title = "@string/search_users"/>
     </group>
 
 

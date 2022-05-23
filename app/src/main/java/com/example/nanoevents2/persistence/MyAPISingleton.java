@@ -31,7 +31,7 @@ public class MyAPISingleton {
     private static MyAPISingleton instance;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
-    private static Context ctx;
+    private Context ctx;
     //API Specific
     private static String accessToken;
     private final String baseurl = "http://puigmal.salle.url.edu/api/v2/";
@@ -774,8 +774,7 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonArrayRequest);
     }
 
-    public static void getMessagesChatFromUser(Context context,int userId
-            ,final MessageVolleyCallback messageVolleyCallback){
+    public void getMessagesChatFromUser(int userId,final MessageVolleyCallback messageVolleyCallback){
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,
                 messages_base_url+"/users",null
@@ -797,7 +796,7 @@ public class MyAPISingleton {
             }
 
         };
-        getInstance(context).addToRequestQueue(jsonArrayRequest);
+        addToRequestQueue(jsonArrayRequest);
     }
 
     public static void getFriendRequests(Context context, final UserVolleyCallback userVolleyCallback){

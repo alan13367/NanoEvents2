@@ -12,8 +12,17 @@
             android:title = "@string/my_events"/>
         <item android:id="@+id/nav_MyMessages"
             android:title = "@string/my_messages"/>
+        <item android:id="@+id/nav_Friends"
+            android:title = "@string/friends" />
         <item android:id="@+id/nav_SearchUsers"
-            android:title = "@string/search_users"/>
+            android:title = "@string/search_users" />
+    </group>
+
+
+    <group android:checkableBehavior="single">
+
+        <item android:id="@+id/nav_Logout"
+            android:title = "@string/logOut"/>
     </group>
 
 

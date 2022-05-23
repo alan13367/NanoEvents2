@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -50,7 +51,7 @@ public class SearchUsersActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()
                 , DividerItemDecoration.VERTICAL));
         userSearch = new ArrayList<>();
-        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()));
+        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(),View.VISIBLE,"Add"));
 
         searchBox = findViewById(R.id.searchUserEditText);
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -65,7 +66,7 @@ public class SearchUsersActivity extends AppCompatActivity {
                             if(userSearch.isEmpty()){
                                 Toast.makeText(SearchUsersActivity.this, "No user was found matching parameters", Toast.LENGTH_SHORT).show();
                             }
-                            recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()));
+                            recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(), View.VISIBLE,"Add"));
 
                         }
 

@@ -12,12 +12,14 @@ public class DataManager {
     private static DataManager instance;
     private Bitmap defaultProfileImage;
     private User user;
+    private List<User> friends;
     private List<Event> futureEventsList;
     private List<User> friendRequests;
     private List<User> usersMyMessagesUsers;
 
     private DataManager(){
         futureEventsList = new ArrayList<>();
+        friends = new ArrayList<>();
         friendRequests = new ArrayList<>();
         usersMyMessagesUsers = new ArrayList<>();
     }
@@ -67,5 +69,13 @@ public class DataManager {
 
     public void setUsersMyMessagesUsers(List<User> usersMyMessagesUsers) {
         this.usersMyMessagesUsers = usersMyMessagesUsers;
+    }
+
+    public List<User> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(List<User> friends) {
+        this.friends = friends;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +25,14 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
 
     List<User> userList;
     Context context;
+    int buttonVisibility;
+    String buttonText;
 
-    public UserItemAdapter(List<User> userList, Context context){
+    public UserItemAdapter(List<User> userList, Context context,int buttonVisibility,String buttonText){
         this.userList = userList;
         this.context = context;
+        this.buttonVisibility = buttonVisibility;
+        this.buttonText = buttonText;
     }
 
     @NonNull
@@ -35,7 +40,7 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
     public UserItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.user_list_item,parent,false);
-        return new UserItemVH(view).linkAdapter(this);
+        return new UserItemVH(view).linkAdapter(this,buttonVisibility,buttonText);
     }
 
     @Override
@@ -66,16 +71,20 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
         TextView nameTextView;
         TextView emailTextView;
         private UserItemAdapter adapter;
+        private Button button;
 
         public UserItemVH(@NonNull View itemView) {
             super(itemView);
             userImageView =itemView.findViewById(R.id.userItemImage);
             nameTextView = itemView.findViewById(R.id.userItemName);
             emailTextView = itemView.findViewById(R.id.userItemEmail);
+            button = itemView.findViewById(R.id.userItemButton);
         }
 
-        public UserItemVH linkAdapter(UserItemAdapter adapter) {
+        public UserItemVH linkAdapter(UserItemAdapter adapter,int buttonVisibility,String buttonText) {
             this.adapter = adapter;
+            button.setVisibility(buttonVisibility);
+            button.setText(buttonText);
             return this;
         }
     }

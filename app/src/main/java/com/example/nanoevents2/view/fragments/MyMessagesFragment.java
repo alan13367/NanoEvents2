@@ -59,7 +59,7 @@ public class MyMessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.myMessagesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats,getContext()));
+        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats,getContext(),View.GONE,""));
 
         fab = view.findViewById(R.id.newMessageFab);
         fab.setOnClickListener(new View.OnClickListener() {

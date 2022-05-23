@@ -118,17 +118,25 @@ public class MyAPISingleton {
                                     public void onSuccess(String response, Object o) {
                                         DataManager.getInstance()
                                                 .setFutureEventsList(new ArrayList<>((ArrayList<Event>)o));
-                                        getFriendRequests(context, new UserVolleyCallback() {
+                                        getFriends(context, new UserVolleyCallback() {
                                             @Override
                                             public void onSuccess(String response, Object o) {
                                                 DataManager.getInstance()
-                                                        .setFriendRequestsList(new ArrayList<>((ArrayList<User>)o));
+                                                        .setFriends(new ArrayList<>((ArrayList<User>)o));
                                                 getUsersMessagingLoggedUser(context, new UserVolleyCallback() {
                                                     @Override
                                                     public void onSuccess(String response, Object o) {
                                                         DataManager.getInstance()
                                                                 .setUsersMyMessagesUsers(new ArrayList<>((ArrayList<User>)o));
-                                                        userVolleyCallback.onSuccess(accessToken,null);
+                                                        getFriendRequests(context, new UserVolleyCallback() {
+                                                            @Override
+                                                            public void onSuccess(String response, Object o) {
+                                                                DataManager.getInstance()
+                                                                        .setFriendRequestsList(new ArrayList<>((ArrayList<User>)o));
+                                                                userVolleyCallback.onSuccess(accessToken,null);
+                                                            }
+                                                        });
+
                                                     }
 
                                                     @Override
@@ -748,7 +756,7 @@ public class MyAPISingleton {
                             e.printStackTrace();
                         }
                     }
-                    userVolleyCallback.onSuccess(response.toString(),userArrayList);
+                    userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(userArrayList));
         }, error -> {
             userVolleyCallback.onFailure();
         }) {
@@ -795,6 +803,40 @@ public class MyAPISingleton {
     public static void getFriendRequests(Context context, final UserVolleyCallback userVolleyCallback){
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, friends_base_url
+             +"/requests",null, response -> {
+
+            ArrayList<User> users = new ArrayList<>();
+            for(int i = 0;i<response.length();i++){
+                try {
+                    JSONObject o = response.getJSONObject(i);
+                    users.add(new User(o.getInt("id"),o.getString("name")
+                            ,o.getString("last_name"),o.getString("email")
+                            ,o.getString("image")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(users));
+        }, error -> {
+            userVolleyCallback.onFailure();
+        }) {
+            /**
+             * Passing some request headers
+             * */
+            @Override
+            public Map<String, String> getHeaders() {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "Bearer " + accessToken);
+                return headers;
+            }
+
+        };
+        getInstance(context).addToRequestQueue(jsonArrayRequest);
+    }
+
+    public static void getFriends(Context context, final UserVolleyCallback userVolleyCallback){
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, friends_base_url
                 ,null, response -> {
 
             ArrayList<User> users = new ArrayList<>();
@@ -808,7 +850,7 @@ public class MyAPISingleton {
                     e.printStackTrace();
                 }
             }
-            userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(Arrays.asList(users)));
+            userVolleyCallback.onSuccess(response.toString(),new ArrayList<>(users));
         }, error -> {
             userVolleyCallback.onFailure();
         }) {

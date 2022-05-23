@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.nanoevents2.Adapters.MyMessagesAdapter;
+import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.MyAPISingleton;
@@ -28,7 +28,7 @@ public class SearchUsersActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private EditText searchBox;
     private List<User> userSearch;
-    private MyMessagesAdapter usersAdapter;
+    private UserItemAdapter usersAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class SearchUsersActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()
                 , DividerItemDecoration.VERTICAL));
         userSearch = new ArrayList<>();
-        recyclerView.setAdapter(new MyMessagesAdapter(userSearch,getApplicationContext()));
+        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()));
 
         searchBox = findViewById(R.id.searchUserEditText);
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -65,7 +65,7 @@ public class SearchUsersActivity extends AppCompatActivity {
                             if(userSearch.isEmpty()){
                                 Toast.makeText(SearchUsersActivity.this, "No user was found matching parameters", Toast.LENGTH_SHORT).show();
                             }
-                            recyclerView.setAdapter(new MyMessagesAdapter(userSearch,getApplicationContext()));
+                            recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()));
 
                         }
 

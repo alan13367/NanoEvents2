@@ -20,27 +20,28 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MyMessagesAdapter extends RecyclerView.Adapter<MyMessagesAdapter.MyMessagesVH> {
+public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserItemVH> {
 
     List<User> userList;
     Context context;
 
-    public MyMessagesAdapter(List<User> userList, Context context){
+    public UserItemAdapter(List<User> userList, Context context){
         this.userList = userList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public MyMessagesVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserItemVH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.my_messages_item,parent,false);
-        return new MyMessagesVH(view).linkAdapter(this);
+                .inflate(R.layout.user_list_item,parent,false);
+        return new UserItemVH(view).linkAdapter(this);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyMessagesVH holder, int position) {
+    public void onBindViewHolder(@NonNull UserItemVH holder, int position) {
         holder.nameTextView.setText(userList.get(position).getName());
+        holder.emailTextView.setText(userList.get(position).getEmail());
         MyAPISingleton.getInstance(context).getImageLoader().get(userList.get(position).getImage()
                 , new ImageLoader.ImageListener() {
                     @Override
@@ -60,18 +61,20 @@ public class MyMessagesAdapter extends RecyclerView.Adapter<MyMessagesAdapter.My
         return userList.size();
     }
 
-    class MyMessagesVH extends RecyclerView.ViewHolder{
+    class UserItemVH extends RecyclerView.ViewHolder{
         CircleImageView userImageView;
         TextView nameTextView;
-        private MyMessagesAdapter adapter;
+        TextView emailTextView;
+        private UserItemAdapter adapter;
 
-        public MyMessagesVH(@NonNull View itemView) {
+        public UserItemVH(@NonNull View itemView) {
             super(itemView);
-            userImageView =itemView.findViewById(R.id.myMessagesImage);
-            nameTextView = itemView.findViewById(R.id.myMessagesName);
+            userImageView =itemView.findViewById(R.id.userItemImage);
+            nameTextView = itemView.findViewById(R.id.userItemName);
+            emailTextView = itemView.findViewById(R.id.userItemEmail);
         }
 
-        public MyMessagesVH linkAdapter(MyMessagesAdapter adapter) {
+        public UserItemVH linkAdapter(UserItemAdapter adapter) {
             this.adapter = adapter;
             return this;
         }

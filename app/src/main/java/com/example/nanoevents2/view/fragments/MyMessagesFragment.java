@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.nanoevents2.Adapters.MyMessagesAdapter;
+import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -59,7 +59,7 @@ public class MyMessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.myMessagesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new MyMessagesAdapter(myMessagesChats,getContext()));
+        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats,getContext()));
 
         fab = view.findViewById(R.id.newMessageFab);
         fab.setOnClickListener(new View.OnClickListener() {

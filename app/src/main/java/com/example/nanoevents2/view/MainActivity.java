@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         User u = DataManager.getInstance().getUser();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setBackgroundResource(R.color.blueCatSalud);
         View headerView = navigationView.getHeaderView(0);
         TextView navName = (TextView) headerView.findViewById(R.id.nameDrawerHeader);
         navName.setText(new StringBuilder()

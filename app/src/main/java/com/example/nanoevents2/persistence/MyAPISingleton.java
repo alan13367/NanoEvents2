@@ -25,7 +25,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class MyAPISingleton {
@@ -110,10 +109,10 @@ public class MyAPISingleton {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        getUserByEmail(context, email, new UserVolleyCallback() {
+                        searchUsersByString(context, email, new UserVolleyCallback() {
                             @Override
                             public void onSuccess(String response, Object o) {
-                                DataManager.getInstance().setUser((User) o);
+                                DataManager.getInstance().setUser(((ArrayList<User>)o).get(0));
                                 getAllFutureEvents(context, new EventVolleyCallback() {
                                     @Override
                                     public void onSuccess(String response, Object o) {
@@ -177,17 +176,22 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void getUserByEmail(Context context, String email, final UserVolleyCallback userVolleyCallback){
+    public static void searchUsersByString(Context context, String string, final UserVolleyCallback userVolleyCallback){
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
-                searchUser+email,null,
+                searchUser+string,null,
                 response -> {
+                    ArrayList<User> users = new ArrayList<>();
                     try {
-                        JSONObject user = response.getJSONObject(0);
-                        userVolleyCallback.onSuccess(user.toString()
-                                ,new Gson().fromJson(user.toString(), User.class));
+                        Gson gson = new Gson();
+                        for(int i = 0;i<response.length();i++){
+                            JSONObject o = response.getJSONObject(i);
+                            users.add(gson.fromJson(o.toString(),User.class));
+                        }
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    userVolleyCallback.onSuccess(response.toString(), users);
                 }, error -> userVolleyCallback.onFailure()) {
             /**
              * Passing some request headers

@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.nanoevents2">
+
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NanoEvents2"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".view.SearchUsersActivity"
+            android:exported="false" />
         <activity
             android:name=".view.SignUpActivity"
             android:exported="false" />

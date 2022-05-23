@@ -7,6 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.eventListFragment;
@@ -41,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
 
         //Nav Header Configuration
-        User u = new User(4,"Alan","Beltran","alan133675@gmail.com","https://i.imgur.com/Muy92vw.png");
+        User u = DataManager.getInstance().getUser();
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View headerView = navigationView.getHeaderView(0);
@@ -51,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView navEmail = (TextView) headerView.findViewById(R.id.emailDrawerHeader);
         navEmail.setText(u.getEmail());
         CircleImageView navImage = headerView.findViewById(R.id.userProfileImage);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_profile);
+        DataManager.getInstance().setDefaultProfileImage(bitmap);
         MyAPISingleton.getInstance(getApplicationContext()).getImageLoader().get(u.getImage()
                 , new ImageLoader.ImageListener() {
             @Override
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
+                navImage.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -73,9 +79,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_exploreEvents:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new eventListFragment()).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_MyMessages:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyMessagesFragment()).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.nav_SearchUsers:
+                Intent intent = new Intent(this,SearchUsersActivity.class);
+                startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
         return true;

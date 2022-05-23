@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.nanoevents2.Adapters.MyMessagesAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class MyMessagesFragment extends Fragment {
 
-
+    FloatingActionButton fab;
     List<User> myMessagesChats; //DataManager.getInstance().getUsersMyMessagesUsers();
 
     public MyMessagesFragment() {
@@ -47,10 +47,10 @@ public class MyMessagesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getActivity().setTitle(R.string.my_messages);
         // Inflate the layout for this fragment
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_my_messages
                 , container, false);
-        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshMessages);
 
         myMessagesChats = new ArrayList<>();
         for(int i = 0;i<10;i++){
@@ -60,18 +60,15 @@ public class MyMessagesFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(new MyMessagesAdapter(myMessagesChats,getContext()));
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+        fab = view.findViewById(R.id.newMessageFab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-                //Call API for new Data
-                myMessagesChats = new ArrayList<>();
-                for(int i = 0;i<10;i++){
-                    myMessagesChats.add(new User("Refreshed "+i,"https://i.imgur.com/Muy92vw.png"));
-                    recyclerView.setAdapter(new MyMessagesAdapter(myMessagesChats,getContext()));
-                }
+            public void onClick(View view) {
+
             }
         });
+
         return view;
     }
 }

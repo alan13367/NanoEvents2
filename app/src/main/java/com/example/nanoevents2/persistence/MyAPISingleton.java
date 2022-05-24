@@ -871,7 +871,7 @@ public class MyAPISingleton {
             ,final UserVolleyCallback userVolleyCallback){
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(requestAction,
-                friends_base_url+requestUserId,null, response -> {
+                friends_base_url+"/"+requestUserId,null, response -> {
             userVolleyCallback.onSuccess(response.toString(),null);
         }, error -> {
             userVolleyCallback.onFailure();

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,6 +46,17 @@ public class ChatActivity extends AppCompatActivity {
     TextView nameReceiver;
     CircleImageView userImage;
 
+    private final MessageVolleyCallback loadMessages = new MessageVolleyCallback() {
+        @Override
+        public void onSuccess(String response, Object o) {
+            messages = (ArrayList<Message>) o;
+            messagesAdapter = new MessagesAdapter(ChatActivity.this, messages
+                    , DataManager.getInstance().getUser().getId());
+            messagesRecyclerView.setAdapter(messagesAdapter);
+            messagesAdapter.notifyDataSetChanged();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,13 +92,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         //RecyclerView
-        int userId = DataManager.getInstance().getUser().getId();
         messages = new ArrayList<>();
-        messages.add(new Message("Hola",userId,809,"18:40"));
-        messages.add(new Message("Hola",809,userId,"18:40"));
-        messages.add(new Message("Que Tal?",809,userId,"18:40"));
-        messages.add(new Message("Muy Bien Tu?",userId,809,"18:40"));
-        messages.add(new Message("Sheeesh",userId,809,"18:40"));
 
         messagesRecyclerView = findViewById(R.id.chatRecyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
@@ -95,17 +101,8 @@ public class ChatActivity extends AppCompatActivity {
         messagesAdapter = new MessagesAdapter(ChatActivity.this, messages, DataManager.getInstance().getUser().getId());
         messagesRecyclerView.setAdapter(messagesAdapter);
 
-        MyAPISingleton.getInstance(getApplicationContext()).getMessagesChatFromUser(receiverUser.getId()
-                , new MessageVolleyCallback() {
-                    @Override
-                    public void onSuccess(String response, Object o) {
-                        messages = (ArrayList<Message>) o;
-                        messagesAdapter = new MessagesAdapter(ChatActivity.this, messages
-                                , DataManager.getInstance().getUser().getId());
-                        messagesRecyclerView.setAdapter(messagesAdapter);
-                        messagesAdapter.notifyDataSetChanged();
-                    }
-                });
+        MyAPISingleton.getInstance(getApplicationContext())
+                .getMessagesChatFromUser(receiverUser.getId(),loadMessages);
 
         //Bottom Part
 
@@ -134,6 +131,7 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+        refreshChat();
     }
 
     @Override
@@ -149,5 +147,24 @@ public class ChatActivity extends AppCompatActivity {
         {
             messagesAdapter.notifyDataSetChanged();
         }
+    }
+    private void refreshChat(){
+        MyAPISingleton.getInstance(getApplicationContext())
+                .getMessagesChatFromUser(receiverUser.getId(),loadMessages);
+        timedRefresh(5000);
+    }
+
+    private void timedRefresh(int milliseconds){
+        final Handler handler = new Handler();
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                refreshChat();
+            }
+        };
+
+        handler.postDelayed(runnable,milliseconds);
+
     }
 }

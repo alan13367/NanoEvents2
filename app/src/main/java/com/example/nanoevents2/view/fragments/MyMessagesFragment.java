@@ -60,8 +60,8 @@ public class MyMessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.myMessagesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats, getContext(), View.GONE, ""
-                , new UserItemAdapter.OnItemClickListener() {
+        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats, getContext(), View.GONE
+                ,View.GONE, "","", new UserItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
                 Intent intent = new Intent(getContext(), ChatActivity.class);

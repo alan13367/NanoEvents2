@@ -59,8 +59,8 @@ public class SearchUsersActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()
                 , DividerItemDecoration.VERTICAL));
         userSearch = new ArrayList<>();
-        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(),View.VISIBLE
-                ,"Add",listener));
+        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(),View.VISIBLE,View.GONE
+                ,"Add","",listener));
 
         searchBox = findViewById(R.id.searchUserEditText);
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -76,7 +76,7 @@ public class SearchUsersActivity extends AppCompatActivity {
                                 Toast.makeText(SearchUsersActivity.this, "No user was found matching parameters", Toast.LENGTH_SHORT).show();
                             }
                             recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()
-                                    , View.VISIBLE,"Add",listener));
+                                    , View.VISIBLE,View.GONE,"Add","",listener));
 
                         }
 

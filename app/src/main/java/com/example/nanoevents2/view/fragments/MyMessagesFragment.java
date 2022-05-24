@@ -1,5 +1,6 @@
 package com.example.nanoevents2.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
+import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.view.ChatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -53,13 +56,19 @@ public class MyMessagesFragment extends Fragment {
                 , container, false);
 
         myMessagesChats = new ArrayList<>();
-        for(int i = 0;i<10;i++){
-            myMessagesChats.add(new User("Name"+i,"https://i.imgur.com/Muy92vw.png"));
-        }
+        myMessagesChats = DataManager.getInstance().getUsersMyMessagesUsers();
         RecyclerView recyclerView = view.findViewById(R.id.myMessagesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats,getContext(),View.GONE,""));
+        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats, getContext(), View.GONE, ""
+                , new UserItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(User user) {
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
+            }
+        }));
 
         fab = view.findViewById(R.id.newMessageFab);
         fab.setOnClickListener(new View.OnClickListener() {

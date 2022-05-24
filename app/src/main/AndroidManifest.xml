@@ -14,13 +14,8 @@
         android:theme="@style/Theme.NanoEvents2"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChatActivity"
+            android:name=".view.ChatActivity"
             android:exported="false" />
-        <activity
-            android:name=".ScrollingActivity"
-            android:exported="false"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/Theme.NanoEvents2.NoActionBar" />
         <activity
             android:name=".view.SearchUsersActivity"
             android:exported="false" />

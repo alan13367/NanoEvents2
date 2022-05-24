@@ -68,34 +68,34 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/messageTextBox"
+        android:layout_above="@id/messageEditText"
         android:layout_below="@id/chatToolBar"
         android:padding="5dp">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <EditText
+        android:id="@+id/messageEditText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Type a message"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="5dp"
+        android:layout_marginRight="55dp"
         android:layout_marginBottom="5dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="Type a message"
         android:paddingLeft="20dp"
         android:paddingEnd="10dp"
-        android:textSize="18sp"
-        android:background="@drawable/rounded_edittext"
         android:textAlignment="textStart"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="55dp"
         android:textColor="@color/black"
         android:textColorHint="#A8A7A7"
-        android:id="@+id/messageTextBox" />
+        android:textSize="18sp" />
 
 
     <androidx.cardview.widget.CardView
         android:layout_width="45dp"
         android:layout_height="45dp"
-        android:layout_toRightOf="@id/messageTextBox"
+        android:layout_toRightOf="@id/messageEditText"
         android:layout_marginLeft="-50dp"
         android:layout_marginBottom="5dp"
         android:backgroundTint="#0D8F80"
@@ -108,7 +108,7 @@
             android:layout_height="match_parent"
             android:src="@drawable/ic_send"
             android:padding="5dp"
-            android:backgroundTint="@color/blue"
+            android:backgroundTint="@color/darkblue"
             android:background="@color/blue"
             android:id="@+id/sendMessageButton"
             android:layout_gravity="center"

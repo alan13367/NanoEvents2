@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,12 +28,19 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
     Context context;
     int buttonVisibility;
     String buttonText;
+    final UserItemAdapter.OnItemClickListener listener;
 
-    public UserItemAdapter(List<User> userList, Context context,int buttonVisibility,String buttonText){
+    public interface OnItemClickListener{
+        void onItemClick(User user);
+    }
+
+    public UserItemAdapter(List<User> userList, Context context, int buttonVisibility
+            , String buttonText, UserItemAdapter.OnItemClickListener listener){
         this.userList = userList;
         this.context = context;
         this.buttonVisibility = buttonVisibility;
         this.buttonText = buttonText;
+        this.listener = listener;
     }
 
     @NonNull
@@ -59,6 +67,13 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
                         holder.userImageView.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
                     }
                 });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onItemClick(userList.get(holder.getBindingAdapterPosition()));
+            }
+        });
     }
 
     @Override

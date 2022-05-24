@@ -19,13 +19,15 @@ public class MessagesAdapter extends RecyclerView.Adapter {
 
     Context context;
     ArrayList<Message> messagesArrayList;
+    int userId;
 
     int ITEM_SEND=1;
     int ITEM_RECIEVE=2;
 
-    public MessagesAdapter(Context context, ArrayList<Message> messagesArrayList) {
+    public MessagesAdapter(Context context, ArrayList<Message> messagesArrayList,int userId) {
         this.context = context;
         this.messagesArrayList = messagesArrayList;
+        this.userId = userId;
     }
 
     @NonNull
@@ -65,7 +67,7 @@ public class MessagesAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         Message message=messagesArrayList.get(position);
-        if(DataManager.getInstance().getUser().getId() == message.getUser_id_send())
+        if(userId == message.getUser_id_send())
         {
             return  ITEM_SEND;
         }

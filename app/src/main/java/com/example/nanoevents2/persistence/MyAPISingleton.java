@@ -776,8 +776,8 @@ public class MyAPISingleton {
 
     public void getMessagesChatFromUser(int userId,final MessageVolleyCallback messageVolleyCallback){
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST,
-                messages_base_url+"/users",null
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET,
+                messages_base_url+"/"+userId,null
                 , response -> {
             Message[] messages = new Gson().fromJson(response.toString(),(Type) Message[].class);
 

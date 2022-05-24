@@ -31,9 +31,17 @@ public class SearchUsersActivity extends AppCompatActivity {
     private List<User> userSearch;
     private UserItemAdapter usersAdapter;
 
+    private UserItemAdapter.OnItemClickListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        listener = new UserItemAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(User user) {
+                //Open Individual User View
+            }
+        };
         setContentView(R.layout.activity_search_users);
         setTitle(R.string.search_users);
 
@@ -51,7 +59,8 @@ public class SearchUsersActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext()
                 , DividerItemDecoration.VERTICAL));
         userSearch = new ArrayList<>();
-        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(),View.VISIBLE,"Add"));
+        recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(),View.VISIBLE
+                ,"Add",listener));
 
         searchBox = findViewById(R.id.searchUserEditText);
         searchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -66,7 +75,8 @@ public class SearchUsersActivity extends AppCompatActivity {
                             if(userSearch.isEmpty()){
                                 Toast.makeText(SearchUsersActivity.this, "No user was found matching parameters", Toast.LENGTH_SHORT).show();
                             }
-                            recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext(), View.VISIBLE,"Add"));
+                            recyclerView.setAdapter(new UserItemAdapter(userSearch,getApplicationContext()
+                                    , View.VISIBLE,"Add",listener));
 
                         }
 

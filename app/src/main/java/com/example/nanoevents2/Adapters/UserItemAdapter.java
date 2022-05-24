@@ -91,22 +91,26 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
                     Toast.makeText(context, "Friend Request Sent!", Toast.LENGTH_SHORT).show();
                 }
             }));
-        }else if(buttonText2.equals("Remove")){
-            holder.button1.setOnClickListener(view -> MyAPISingleton.manageFriendRequests(context
-                    ,userList.get(holder.getBindingAdapterPosition()).getId()
-                    ,User.REJECT_REQUEST, new UserVolleyCallback() {
-                        @Override
-                        public void onSuccess(String response, Object o) {
-                            Toast.makeText(context, "Friend Request Rejected!", Toast.LENGTH_SHORT).show();
-                        }
-                    }));
         }else if (buttonText.equals("Accept")){
+            holder.button.setTextSize(10);
             holder.button.setOnClickListener(view -> MyAPISingleton.manageFriendRequests(context
                     ,userList.get(holder.getBindingAdapterPosition()).getId()
                     ,User.ACCEPT_REQUEST, new UserVolleyCallback() {
                         @Override
                         public void onSuccess(String response, Object o) {
                             Toast.makeText(context, "Friend Request Sent!", Toast.LENGTH_SHORT).show();
+                        }
+                    }));
+        }
+        if(buttonText2.equals("Remove")){
+            holder.button1.setTextSize(10);
+            holder.emailTextView.setVisibility(View.GONE);
+            holder.button1.setOnClickListener(view -> MyAPISingleton.manageFriendRequests(context
+                    ,userList.get(holder.getBindingAdapterPosition()).getId()
+                    ,User.REJECT_REQUEST, new UserVolleyCallback() {
+                        @Override
+                        public void onSuccess(String response, Object o) {
+                            Toast.makeText(context, "Friend Request Rejected!", Toast.LENGTH_SHORT).show();
                         }
                     }));
         }

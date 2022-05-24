@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.view.fragments.FriendRequestsFragment;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.eventListFragment;
@@ -84,12 +85,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_MyMessages:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,new MyMessagesFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,MyMessagesFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_SearchUsers:
                 Intent intent = new Intent(this,SearchUsersActivity.class);
                 startActivity(intent);
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.nav_FriendRequests:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FriendRequestsFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
         }

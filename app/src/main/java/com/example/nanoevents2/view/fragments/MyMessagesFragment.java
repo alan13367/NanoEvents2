@@ -17,6 +17,7 @@ import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.view.ChatActivity;
+import com.example.nanoevents2.view.SendMessageToUserActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -30,7 +31,8 @@ import java.util.List;
 public class MyMessagesFragment extends Fragment {
 
     FloatingActionButton fab;
-    List<User> myMessagesChats; //DataManager.getInstance().getUsersMyMessagesUsers();
+    List<User> myMessagesChats;
+    UserItemAdapter adapter;//DataManager.getInstance().getUsersMyMessagesUsers();
 
     public MyMessagesFragment() {
         // Required empty public constructor
@@ -60,7 +62,7 @@ public class MyMessagesFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.myMessagesRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setAdapter(new UserItemAdapter(myMessagesChats, getContext(), View.GONE
+        adapter = new UserItemAdapter(myMessagesChats, getContext(), View.GONE
                 ,View.GONE, "","", new UserItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
@@ -68,16 +70,24 @@ public class MyMessagesFragment extends Fragment {
                 intent.putExtra("User",user);
                 startActivity(intent);
             }
-        }));
+        });
+        recyclerView.setAdapter(adapter);
 
         fab = view.findViewById(R.id.newMessageFab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getContext(), SendMessageToUserActivity.class);
+                startActivity(intent);
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
     }
 }

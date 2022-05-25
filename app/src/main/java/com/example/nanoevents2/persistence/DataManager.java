@@ -71,11 +71,28 @@ public class DataManager {
         this.usersMyMessagesUsers = usersMyMessagesUsers;
     }
 
+    public void addUserMyMessages(User user){
+        boolean exists = false;
+        for(User u:usersMyMessagesUsers){
+            if(u.getEmail().equals(user.getEmail())){
+                exists = true;
+                break;
+            }
+        }
+        if(!exists){
+            usersMyMessagesUsers.add(user);
+        }
+    }
+
     public List<User> getFriends() {
         return friends;
     }
 
     public void setFriends(List<User> friends) {
         this.friends = friends;
+    }
+
+    public static void clearDataManager(){
+        instance = null;
     }
 }

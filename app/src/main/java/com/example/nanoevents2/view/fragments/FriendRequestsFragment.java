@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -73,8 +74,18 @@ public class FriendRequestsFragment extends Fragment {
                     @Override
                     public void onSuccess(String response, Object o) {
                         swipeRefreshLayout.setRefreshing(false);
-                        friendRequests = (ArrayList<User>)o;
-                        adapter.notifyDataSetChanged();
+                        friendRequests = (List<User>)o;
+                        adapter = new UserItemAdapter(friendRequests, getContext(), View.VISIBLE
+                                ,View.VISIBLE, "Accept","Remove", new UserItemAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(User user) {
+
+                            }
+                        });
+                        recyclerView.setAdapter(adapter);
+                        if(friendRequests.isEmpty()){
+                            Toast.makeText(getContext(),"You have no Friend Requests!",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }

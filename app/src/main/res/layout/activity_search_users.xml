@@ -24,7 +24,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edittext"
         android:hint="@string/search_user_string"
-        android:padding="6dip"
+        android:padding="7dip"
         android:layout_marginTop="70dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"/>

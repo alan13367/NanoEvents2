@@ -98,7 +98,16 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
                     ,User.ACCEPT_REQUEST, new UserVolleyCallback() {
                         @Override
                         public void onSuccess(String response, Object o) {
-                            Toast.makeText(context, "Friend Request Sent!", Toast.LENGTH_SHORT).show();
+                            userList.remove(holder.getBindingAdapterPosition());
+                            holder.adapter.notifyItemRemoved(holder.getBindingAdapterPosition());
+                            MyAPISingleton.getFriends(context, new UserVolleyCallback() {
+                                @Override
+                                public void onSuccess(String response, Object o) {
+
+                                    DataManager.getInstance().setFriends((List<User>) o);
+                                }
+                            });
+                            Toast.makeText(context, "Friend Request Accepted!", Toast.LENGTH_SHORT).show();
                         }
                     }));
         }
@@ -110,6 +119,14 @@ public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserIt
                     ,User.REJECT_REQUEST, new UserVolleyCallback() {
                         @Override
                         public void onSuccess(String response, Object o) {
+                            userList.remove(holder.getBindingAdapterPosition());
+                            holder.adapter.notifyItemRemoved(holder.getBindingAdapterPosition());
+                            MyAPISingleton.getFriendRequests(context, new UserVolleyCallback() {
+                                @Override
+                                public void onSuccess(String response, Object o) {
+                                    DataManager.getInstance().setFriendRequestsList((List<User>) o);
+                                }
+                            });
                             Toast.makeText(context, "Friend Request Rejected!", Toast.LENGTH_SHORT).show();
                         }
                     }));

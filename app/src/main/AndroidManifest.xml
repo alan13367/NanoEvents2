@@ -20,6 +20,9 @@
             android:name=".view.SearchUsersActivity"
             android:exported="false" />
         <activity
+            android:name=".view.SendMessageToUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.SignUpActivity"
             android:exported="false" />
         <activity

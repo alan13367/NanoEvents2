@@ -16,13 +16,16 @@ public class DataManager {
     private List<Event> futureEventsList;
     private List<User> friendRequests;
     private List<User> usersMyMessagesUsers;
+    private List<Event> allUserEvents;
 
     private DataManager(){
         futureEventsList = new ArrayList<>();
         friends = new ArrayList<>();
         friendRequests = new ArrayList<>();
         usersMyMessagesUsers = new ArrayList<>();
+        allUserEvents = new ArrayList<>();
     }
+
 
     public static DataManager getInstance(){
         if(instance == null){
@@ -90,6 +93,14 @@ public class DataManager {
 
     public void setFriends(List<User> friends) {
         this.friends = friends;
+    }
+
+    public List<Event> getAllUserEvents() {
+        return allUserEvents;
+    }
+
+    public void setAllUserEvents(List<Event> allUserEvents) {
+        this.allUserEvents = allUserEvents;
     }
 
     public static void clearDataManager(){

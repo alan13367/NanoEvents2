@@ -1,4 +1,10 @@
 <resources>
+    <string-array name="spinner">
+        <item>Business</item>
+        <item>Sports</item>
+        <item>Fun</item>
+        <item>Investment</item>
+    </string-array>
     <string name="app_name">NanoEvents</string>
     <string name="password">Password</string>
     <string name="username">Username</string>

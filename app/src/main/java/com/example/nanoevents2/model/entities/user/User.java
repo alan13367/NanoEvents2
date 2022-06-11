@@ -1,6 +1,9 @@
 package com.example.nanoevents2.model.entities.user;
 
+import com.example.nanoevents2.model.entities.Event;
+
 import java.io.Serializable;
+import java.util.List;
 
 public class User implements Serializable {
     private int id;
@@ -9,22 +12,24 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String image;
+    private List<Event> myEvents;
 
     public static final int ACCEPT_REQUEST = 2;
     public static final int CREATE_REQUEST = 1;
     public static final int REJECT_REQUEST = 3;
 
-    public User(int id,String name, String last_name, String email, String password, String image) {
+    public User(int id,String name, String last_name, String email, String password, String image ) {
         this.id = id;
         this.name = name;
         this.last_name = last_name;
         this.email = email;
         this.password = password;
         this.image = image;
+
     }
 
+
     public User(String name,String image){
-        this.name = name;
         this.image = image;
     }
 
@@ -34,6 +39,7 @@ public class User implements Serializable {
         this.last_name = last_name;
         this.email = email;
         this.image = image;
+        //this.myEvents = myEvents;
     }
 
 

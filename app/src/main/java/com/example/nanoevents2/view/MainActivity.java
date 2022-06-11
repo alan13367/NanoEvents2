@@ -25,6 +25,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.view.fragments.FriendRequestsFragment;
+import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.eventListFragment;
@@ -120,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 finish();
                             }})
                         .setNegativeButton(android.R.string.no, null).show();
+                break;
+            case R.id.nav_MyEvents:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MyEventFragment.newInstance()).commit();
+                drawer.closeDrawer(GravityCompat.START);
                 break;
         }
         return true;

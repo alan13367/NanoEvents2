@@ -62,6 +62,7 @@
         android:layout_height="42dp"
         android:layout_marginStart="90dp"
         android:layout_marginEnd="90dp"
+        android:layout_marginTop="36dp"
         android:backgroundTint="@color/blueCatSalud"
         android:spinnerMode="dropdown"
         app:layout_constraintEnd_toEndOf="@id/setDescriptionEvent"
@@ -78,7 +79,7 @@
         android:layout_marginHorizontal="40dp"
         android:inputType="textPersonName"
         android:text="Select Event duration:"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="36dp"
         android:textColor="@color/white"
         tools:layout_editor_absoluteX="39dp"
         tools:layout_editor_absoluteY="287dp"
@@ -107,8 +108,21 @@
         android:layout_marginStart="128dp"
         android:layout_marginTop="5dp"
         android:text="Select Dates"
+        android:backgroundTint="@color/blueCatSalud"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/selectRangeDateTxt"
+        />
+
+    <Button
+        android:id="@+id/createEventBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginTop="36dp"
+        android:backgroundTint="@color/blueCatSalud"
+        android:text="CREATE EVENT"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dateRangeTxt"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

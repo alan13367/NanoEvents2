@@ -1,6 +1,7 @@
 package com.example.nanoevents2.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -18,6 +19,8 @@ import android.widget.TextView;
 
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.MyEventFragment;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.util.Calendar;
 
@@ -25,7 +28,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
     private TextView startDatePick;
     private Button startDatePickBtn;
-    private Button endDatePickBtn;
+    private TextView dateRangeTxt;
+    private Button rangeDatePickBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,20 +57,30 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         });
 
         // start date
-        startDatePickBtn = findViewById(R.id.startDatePickBtn);
-        startDatePickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });
-
         //end date
-        endDatePickBtn = findViewById(R.id.endDatePickBtn);
+        /*endDatePickBtn = findViewById(R.id.endDatePickBtn);
         endDatePickBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog();
+            }
+        });*/
+
+        // date range
+        dateRangeTxt = findViewById(R.id.dateRangeTxt);
+        rangeDatePickBtn = findViewById(R.id.rangeDatePickBtn);
+        MaterialDatePicker materialDatePicker = MaterialDatePicker.Builder.dateRangePicker().
+                setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds())).build();
+        rangeDatePickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                materialDatePicker.show(getSupportFragmentManager(),"Tag_picker");
+                materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+                    @Override
+                    public void onPositiveButtonClick(Object selection) {
+                        dateRangeTxt.setText(materialDatePicker.getHeaderText());
+                    }
+                });
             }
         });
 

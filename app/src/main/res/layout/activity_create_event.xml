@@ -69,25 +69,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/setDescriptionEvent" />
 
-    <Button
-        android:id="@+id/startDatePickBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="128dp"
-        android:layout_marginTop="5dp"
-        android:text="Start date"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectStartDate"
-         />
 
     <EditText
-        android:id="@+id/selectStartDate"
+        android:id="@+id/selectRangeDateTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginHorizontal="40dp"
         android:inputType="textPersonName"
-        android:text="Select Start Date:"
+        android:text="Select Event duration:"
         android:layout_marginTop="32dp"
         android:textColor="@color/white"
         tools:layout_editor_absoluteX="39dp"
@@ -97,30 +87,28 @@
         />
 
     <EditText
-        android:id="@+id/selectEndDate"
+        android:id="@+id/dateRangeTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginHorizontal="40dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="16dp"
+        android:ems="10"
         android:inputType="textPersonName"
-        android:text="Select End Date:"
-        android:layout_marginTop="32dp"
+        android:text=""
         android:textColor="@color/white"
-        tools:layout_editor_absoluteX="39dp"
-        tools:layout_editor_absoluteY="287dp"
-        app:layout_constraintTop_toBottomOf="@id/startDatePickBtn"
         app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@id/rangeDatePickBtn" />
 
     <Button
-        android:id="@+id/endDatePickBtn"
+        android:id="@+id/rangeDatePickBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="128dp"
         android:layout_marginTop="5dp"
-        android:text="End date"
+        android:text="Select Dates"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selectEndDate"
+        app:layout_constraintTop_toBottomOf="@id/selectRangeDateTxt"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

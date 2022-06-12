@@ -26,13 +26,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserItemAdapter extends RecyclerView.Adapter<UserItemAdapter.UserItemVH> {
 
-    List<User> userList;
-    Context context;
-    int button1Visibility;
-    int button2Visibility;
-    String buttonText;
-    String buttonText2;
-    final UserItemAdapter.OnItemClickListener listener;
+    private List<User> userList;
+    private Context context;
+    private int button1Visibility;
+    private int button2Visibility;
+    private String buttonText;
+    private String buttonText2;
+    private final UserItemAdapter.OnItemClickListener listener;
 
 
     public interface OnItemClickListener{

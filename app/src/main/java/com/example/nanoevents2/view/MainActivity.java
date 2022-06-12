@@ -28,6 +28,7 @@ import com.example.nanoevents2.view.fragments.FriendRequestsFragment;
 import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
+import com.example.nanoevents2.view.fragments.MyProfileFragment;
 import com.example.nanoevents2.view.fragments.eventListFragment;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
@@ -39,9 +40,7 @@ import java.util.ArrayList;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    private TextView textView;
     private DrawerLayout drawer;
-    private ArrayList<Event> eventsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +70,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 , new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
-                navImage.setImageBitmap(response.getBitmap());
+                Bitmap bitmap1 = response.getBitmap();
+                DataManager.getInstance().setUserProfileImage(bitmap1);
+                navImage.setImageBitmap(bitmap1);
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                navImage.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
+                DataManager.getInstance().setUserProfileImage(DataManager.getInstance().getDefaultProfileImage());
+                navImage.setImageBitmap(DataManager.getInstance().getUserProfileImage());
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -90,6 +92,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.nav_myProfile:
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, MyProfileFragment.newInstance()).commit();
+                drawer.closeDrawer(GravityCompat.START);
+                break;
             case R.id.nav_exploreEvents:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new eventListFragment()).commit();
                 drawer.closeDrawer(GravityCompat.START);
@@ -107,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, FriendRequestsFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
+
             case R.id.nav_Logout:
                 new AlertDialog.Builder(this)
                         .setTitle("Logging Out")

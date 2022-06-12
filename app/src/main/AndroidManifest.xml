@@ -17,6 +17,9 @@
             android:name=".view.CreateEventActivity"
             android:exported="false" />
         <activity
+            android:name=".view.UserProfile"
+            android:exported="false" />
+        <activity
             android:name=".view.ChatActivity"
             android:exported="false" />
         <activity

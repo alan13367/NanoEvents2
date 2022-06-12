@@ -25,6 +25,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
     private TextView startDatePick;
     private Button startDatePickBtn;
+    private Button endDatePickBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +61,19 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
+        //end date
+        endDatePickBtn = findViewById(R.id.endDatePickBtn);
+        endDatePickBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog();
+            }
+        });
+
 
     }
 
+    //spinner item select
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String text = parent.getItemAtPosition(position).toString();
@@ -83,7 +95,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = month + "/" + dayOfMonth+"/"+year;
-        startDatePickBtn.setText(date);
+        String startDate = month + "/" + dayOfMonth+"/"+year;
+        startDatePickBtn.setText(startDate);
     }
 }

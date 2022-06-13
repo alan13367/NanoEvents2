@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,10 +19,13 @@ import android.widget.TextView;
 
 
 import com.example.nanoevents2.R;
+import com.example.nanoevents2.model.entities.Event;
+import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class CreateEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
@@ -30,19 +34,30 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     private Button startDatePickBtn;
     private TextView dateRangeTxt;
     private Button rangeDatePickBtn;
+    private Button createEventBtn;
+    private EditText eventName, eventDescription;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+
         // event type spinner
-        Spinner spinner= (Spinner) findViewById(R.id.spinnerEventCategory);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinner, android.R.layout.simple_spinner_item);
+        Spinner spinner= findViewById(R.id.spinnerEventCategory);
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerItems, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        spinner.setPrompt("title");
+        spinner.setPrompt("title");*/
+        ArrayList<String> modes = new ArrayList<>();
+        modes.add("Sports");
+        modes.add("Business");
+        modes.add("Party");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,modes);
+        spinner.setAdapter(adapter);
 
         // back arrow
         setContentView(R.layout.activity_create_event);
@@ -52,19 +67,9 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
             public void onClick(View v) {
                 Intent intent = new Intent(getBaseContext(),MyEventFragment.class);
                 startActivity(intent);
-
             }
         });
 
-        // start date
-        //end date
-        /*endDatePickBtn = findViewById(R.id.endDatePickBtn);
-        endDatePickBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog();
-            }
-        });*/
 
         // date range
         dateRangeTxt = findViewById(R.id.dateRangeTxt);
@@ -84,8 +89,22 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
             }
         });
 
+        // create event
+        eventDescription = findViewById(R.id.setDescriptionEvent);
+        eventName = findViewById(R.id.setTitleEvent);
+        createEventBtn = findViewById(R.id.createEventBtn);
+        createEventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Event newEvent = new Event(eventName.getText().toString(),eventDescription.getText().toString(),dateRangeTxt.getText().toString());
+                //MyAPISingleton.createEvent();
+            }
+        });
 
     }
+
+
+
 
     //spinner item select
     @Override
@@ -97,14 +116,6 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
-
-    private void showDatePickerDialog(){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-                ); datePickerDialog.show();
     }
 
     @Override

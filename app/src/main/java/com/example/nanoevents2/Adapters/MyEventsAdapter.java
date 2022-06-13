@@ -48,7 +48,17 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventV
     public void onBindViewHolder(@NonNull EventVH holder, int position) {
         //holder.imageView.setImageBitmap(eventArrayList.get(position).getImage());
         holder.name.setText(eventArrayList.get(position).getName());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(eventArrayList.get(holder.getBindingAdapterPosition()));
+            }
+        });
+
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -62,7 +72,6 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsAdapter.EventV
 
         public EventVH(@NonNull View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.eventImage);
             name = itemView.findViewById(R.id.eventNameId);
         }
         

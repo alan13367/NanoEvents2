@@ -36,7 +36,6 @@ public class MyMessagesFragment extends Fragment {
 
     public MyMessagesFragment() {
         // Required empty public constructor
-
     }
 
     // TODO: Rename and change types and number of parameters

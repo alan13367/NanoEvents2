@@ -113,6 +113,10 @@ public class DataManager {
         this.allUserEvents = allUserEvents;
     }
 
+    public void addUserEvent(Event event){
+        allUserEvents.add(event);
+    }
+
     public static void clearDataManager(){
         instance = null;
     }

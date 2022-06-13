@@ -20,6 +20,7 @@ import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.view.CreateEventActivity;
+import com.example.nanoevents2.view.myEventFrame;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -47,6 +48,10 @@ public class MyEventFragment extends Fragment {
         getActivity().setTitle("My Events");
         eventList = new ArrayList<>();
         eventList = DataManager.getInstance().getAllUserEvents();
+
+        // test event
+        eventList.add(new Event("hola","hola","hola"));
+
         RecyclerView eventRv = view.findViewById(R.id.myEventsRecyclerView);
         eventRv.setLayoutManager(new LinearLayoutManager(getContext()));
         eventRv.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
@@ -54,8 +59,11 @@ public class MyEventFragment extends Fragment {
             @Override
             public void onItemClick(Event event) {
                 // screen con info del event y lo de attend
+                Intent intent = new Intent(getContext(), myEventFrame.class ) ;
+                startActivity(intent);
             }
         });
+        eventRv.setAdapter(adapter);
 
         fab = view.findViewById(R.id.newEventFab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +74,6 @@ public class MyEventFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
         return view;
     }
 

@@ -29,6 +29,7 @@ import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.MyProfileFragment;
+import com.example.nanoevents2.view.fragments.SearchUsersFragment;
 import com.example.nanoevents2.view.fragments.eventListFragment;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
@@ -73,19 +74,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bitmap bitmap1 = response.getBitmap();
                 DataManager.getInstance().setUserProfileImage(bitmap1);
                 navImage.setImageBitmap(bitmap1);
+                setFragment(MyProfileFragment.newInstance());
+                navigationView.setCheckedItem(R.id.nav_myProfile);
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 DataManager.getInstance().setUserProfileImage(DataManager.getInstance().getDefaultProfileImage());
                 navImage.setImageBitmap(DataManager.getInstance().getUserProfileImage());
+                setFragment(MyProfileFragment.newInstance());
+                navigationView.setCheckedItem(R.id.nav_myProfile);
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        setFragment(new eventListFragment());
-        navigationView.setCheckedItem(R.id.nav_exploreEvents);
+
 
     }
 
@@ -105,8 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_SearchUsers:
-                Intent intent = new Intent(this,SearchUsersActivity.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SearchUsersFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_FriendRequests:

@@ -20,10 +20,10 @@
             android:name=".view.UserProfile"
             android:exported="false" />
         <activity
-            android:name=".view.ChatActivity"
+            android:name=".view.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SearchUsersActivity"
+            android:name=".view.ChatActivity"
             android:exported="false" />
         <activity
             android:name=".view.SendMessageToUserActivity"
@@ -45,13 +45,7 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
     </application>
 
 </manifest>

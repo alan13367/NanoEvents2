@@ -48,7 +48,7 @@ public class SendMessageToUserActivity extends AppCompatActivity {
                 finish();
             }
         };
-        setContentView(R.layout.activity_search_users);
+        setContentView(R.layout.activity_send_message_to_user);
         setTitle(R.string.select_user);
 
         Toolbar toolbar = findViewById(R.id.searchUsersToolbar);

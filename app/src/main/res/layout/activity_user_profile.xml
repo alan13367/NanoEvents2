@@ -39,6 +39,7 @@
 
 
         <ImageButton
+            android:id="@+id/editProfileButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentRight="true"
@@ -88,8 +89,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:paddingStart="10dp"
-                    android:text="joey@sharenofood.com"
-                    android:textColor="#000000"
+                    android:text="@string/email"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
 
@@ -107,18 +108,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:text="Average Score"
+                    android:text="@string/average_score"
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/profileAverageScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:paddingStart="10dp"
                     android:text="0"
-                    android:textColor="#000000"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
 
@@ -136,18 +138,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:text="Number of Comments"
+                    android:text="@string/number_of_comments"
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/profileNumberOfComments"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:paddingStart="10dp"
                     android:text="0"
-                    android:textColor="#000000"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
 
@@ -165,18 +168,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:text="Percentage of Commenters Below"
+                    android:text="@string/percentage_of_commenters_below"
                     android:textColor="@color/black"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/profilePercentageBelow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
                     android:paddingStart="10dp"
-                    android:text="joey@sharenofood.com"
-                    android:textColor="#000000"
+                    android:text="0%"
+                    android:textColor="@color/white"
                     android:textSize="18sp" />
 
 

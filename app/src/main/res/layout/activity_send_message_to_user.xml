@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkblue"
-    tools:context=".view.SearchUsersActivity">
+    tools:context=".view.SendMessageToUserActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/searchUsersToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/darkblue"
-        android:id="@+id/searchUsersToolbar"
+        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:elevation="4dp"/>
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
     <EditText
         android:id="@+id/searchUserEditText"
-        android:imeOptions="actionSearch"
-        android:inputType="text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/rounded_edittext"
         android:hint="@string/search_user_string"
-        android:padding="7dip"
-        android:layout_marginTop="70dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="10dip" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchUsersRecyclerView"

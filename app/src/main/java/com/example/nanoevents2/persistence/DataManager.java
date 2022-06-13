@@ -2,6 +2,7 @@ package com.example.nanoevents2.persistence;
 
 import android.graphics.Bitmap;
 
+import com.example.nanoevents2.BuildConfig;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
 
@@ -10,8 +11,9 @@ import java.util.List;
 
 public class DataManager {
     private static DataManager instance;
-    private Bitmap defaultProfileImage;
     private User user;
+    private Bitmap userProfileImage;
+    private Bitmap defaultProfileImage;
     private List<User> friends;
     private List<Event> futureEventsList;
     private List<User> friendRequests;
@@ -32,6 +34,14 @@ public class DataManager {
             instance = new DataManager();
         }
         return instance;
+    }
+
+    public Bitmap getUserProfileImage() {
+        return userProfileImage;
+    }
+
+    public void setUserProfileImage(Bitmap userProfileImage) {
+        this.userProfileImage = userProfileImage;
     }
 
     public void setDefaultProfileImage(Bitmap defaultProfileImage) {

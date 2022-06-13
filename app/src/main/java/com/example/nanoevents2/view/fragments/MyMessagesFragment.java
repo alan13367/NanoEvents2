@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.MyAPISingleton;
+import com.example.nanoevents2.persistence.UserVolleyCallback;
 import com.example.nanoevents2.view.ChatActivity;
 import com.example.nanoevents2.view.SendMessageToUserActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -78,6 +81,33 @@ public class MyMessagesFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), SendMessageToUserActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.myMessagesSwipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                MyAPISingleton.getUsersMessagingLoggedUser(getContext(), new UserVolleyCallback() {
+                    @Override
+                    public void onSuccess(String response, Object o) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        DataManager.getInstance().setUsersMyMessagesUsers((List<User>) o);
+                        myMessagesChats = (List<User>) o;
+                        adapter = new UserItemAdapter(myMessagesChats, getContext(), View.GONE
+                                ,View.GONE, "","", new UserItemAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(User user) {
+                                Intent intent = new Intent(getContext(), ChatActivity.class);
+                                intent.putExtra("User",user);
+                                startActivity(intent);
+                            }
+                        });
+                        recyclerView.setAdapter(adapter);
+                    }
+                });
+
+
             }
         });
 

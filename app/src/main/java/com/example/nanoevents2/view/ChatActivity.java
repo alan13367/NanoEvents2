@@ -46,6 +46,8 @@ public class ChatActivity extends AppCompatActivity {
     TextView nameReceiver;
     CircleImageView userImage;
 
+    final Handler handler = new Handler();
+
     private final MessageVolleyCallback loadMessages = new MessageVolleyCallback() {
         @Override
         public void onSuccess(String response, Object o) {
@@ -87,6 +89,7 @@ public class ChatActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                handler.removeCallbacksAndMessages(null);
                 finish();
             }
         });
@@ -148,6 +151,12 @@ public class ChatActivity extends AppCompatActivity {
             messagesAdapter.notifyDataSetChanged();
         }
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        handler.removeCallbacksAndMessages(null);
+        this.finish();
+    }
     private void refreshChat(){
         MyAPISingleton.getInstance(getApplicationContext())
                 .getMessagesChatFromUser(receiverUser.getId(),loadMessages);
@@ -155,7 +164,7 @@ public class ChatActivity extends AppCompatActivity {
     }
 
     private void timedRefresh(int milliseconds){
-        final Handler handler = new Handler();
+
 
         final Runnable runnable = new Runnable() {
             @Override
@@ -165,6 +174,5 @@ public class ChatActivity extends AppCompatActivity {
         };
 
         handler.postDelayed(runnable,milliseconds);
-
     }
 }

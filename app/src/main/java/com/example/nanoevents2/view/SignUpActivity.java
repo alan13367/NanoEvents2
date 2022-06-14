@@ -1,9 +1,11 @@
 package com.example.nanoevents2.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +30,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        Toolbar toolbar = findViewById(R.id.signUpToolbar);
+        setSupportActionBar(toolbar);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
 
         Button createAccBtn = findViewById(R.id.createAccBtn);
         createAccBtn.setOnClickListener(this);
@@ -74,6 +85,16 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 

@@ -132,16 +132,16 @@ public class MyAPISingleton {
                                                             @Override
                                                             public void onSuccess(String response, Object o) {
                                                                 DataManager.getInstance()
-                                                                        .setFriendRequestsList(new ArrayList<>((ArrayList<User>)o));
+                                                                        .setFriendRequestsList(new ArrayList<>((ArrayList<User>) o));
                                                                 getEventsFromUser(context, DataManager.getInstance().getUser().getId()
                                                                         , Event.ALL_EVENTS, new EventVolleyCallback() {
                                                                             @Override
                                                                             public void onSuccess(String response, Object o) {
-                                                                                DataManager.getInstance().setAllUserEvents((ArrayList<Event>)o);
-                                                                                userVolleyCallback.onSuccess(accessToken,null);
+                                                                                DataManager.getInstance().setAllUserEvents((ArrayList<Event>) o);
+                                                                                userVolleyCallback.onSuccess(accessToken, null);
                                                                             }
-                                                                    });
-                                                            }
+                                                                        });
+                                                                }
                                                         });
                                                     }
                                                     @Override

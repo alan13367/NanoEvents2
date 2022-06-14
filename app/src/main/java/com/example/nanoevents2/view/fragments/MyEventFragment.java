@@ -19,6 +19,7 @@ import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.view.CreateEventActivity;
 import com.example.nanoevents2.view.myEventFrame;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,10 +48,15 @@ public class MyEventFragment extends Fragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_my_events,container,false);
         getActivity().setTitle("My Events");
         eventList = new ArrayList<>();
-        eventList = DataManager.getInstance().getAllUserEvents();
+        eventList.add(new Event("test","hola",""));
 
+        for(Event e: DataManager.getInstance().getAllUserEvents()){
+            System.out.println(e.getName());
+        }
         // test event
-        eventList.add(new Event("hola","hola","hola"));
+        //eventList.add(new Event("hola","hola","hola"));
+
+
 
         RecyclerView eventRv = view.findViewById(R.id.myEventsRecyclerView);
         eventRv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -69,7 +75,7 @@ public class MyEventFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // CREATE EVENT ACTIVITY HERE
+                // CREATE EVENT ACTIVITY
                 Intent intent = new Intent(getContext(), CreateEventActivity.class);
                 startActivity(intent);
             }

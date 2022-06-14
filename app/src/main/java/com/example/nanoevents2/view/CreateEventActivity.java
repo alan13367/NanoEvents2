@@ -20,6 +20,8 @@ import android.widget.TextView;
 
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
+import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.EventVolleyCallback;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -27,6 +29,7 @@ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClic
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
@@ -42,7 +45,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
-
+        List<Event> userEvents = DataManager.getInstance().getAllUserEvents();
 
         // event type spinner
         Spinner spinner= findViewById(R.id.spinnerEventCategory);
@@ -98,6 +101,15 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
             public void onClick(View v) {
                 Event newEvent = new Event(eventName.getText().toString(),eventDescription.getText().toString(),dateRangeTxt.getText().toString());
                 //MyAPISingleton.createEvent();
+                //userEvents.add(newEvent);
+                //DataManager.getInstance().setAllUserEvents(userEvents);
+               /* MyAPISingleton.createEvent(this, eventName.getText().toString(), "", "", "", "", "",
+                        "" ,0, "", new EventVolleyCallback() {
+                    @Override
+                    public void onSuccess(String response, Object o) {
+                        //userEvents=(List<Event>) o;
+                    }
+                });*/
             }
         });
 

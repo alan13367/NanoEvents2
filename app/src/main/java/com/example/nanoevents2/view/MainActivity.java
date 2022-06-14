@@ -12,14 +12,12 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
@@ -29,13 +27,11 @@ import com.example.nanoevents2.view.fragments.MyEventFragment;
 import com.example.nanoevents2.view.fragments.MyMessagesFragment;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.view.fragments.MyProfileFragment;
-import com.example.nanoevents2.view.fragments.eventListFragment;
-import com.example.nanoevents2.model.entities.Event;
+import com.example.nanoevents2.view.fragments.SearchUsersFragment;
+import com.example.nanoevents2.view.fragments.EventListFragment;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -73,19 +69,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Bitmap bitmap1 = response.getBitmap();
                 DataManager.getInstance().setUserProfileImage(bitmap1);
                 navImage.setImageBitmap(bitmap1);
+                setFragment(MyProfileFragment.newInstance());
+                navigationView.setCheckedItem(R.id.nav_myProfile);
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 DataManager.getInstance().setUserProfileImage(DataManager.getInstance().getDefaultProfileImage());
                 navImage.setImageBitmap(DataManager.getInstance().getUserProfileImage());
+                setFragment(MyProfileFragment.newInstance());
+                navigationView.setCheckedItem(R.id.nav_myProfile);
             }
         });
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        setFragment(new eventListFragment());
-        navigationView.setCheckedItem(R.id.nav_exploreEvents);
+
 
     }
 
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_exploreEvents:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new eventListFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, EventListFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_MyMessages:
@@ -105,8 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_SearchUsers:
-                Intent intent = new Intent(this,SearchUsersActivity.class);
-                startActivity(intent);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, SearchUsersFragment.newInstance()).commit();
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.nav_FriendRequests:

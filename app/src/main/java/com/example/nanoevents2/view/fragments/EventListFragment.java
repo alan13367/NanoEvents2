@@ -28,6 +28,12 @@ public class EventListFragment extends Fragment implements View.OnClickListener 
     RecyclerView recyclerEvents ;
     private ArrayList<Event> eventArrayList;
     private ArrayList<Event> filteredArraylist;
+    private final EventRV_Adapter.OnItemClickListener listener = new EventRV_Adapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(Event event) {
+            //Open Individual Event View
+        }
+    };
 
     public EventListFragment() {
         // Required empty public constructor
@@ -53,7 +59,7 @@ public class EventListFragment extends Fragment implements View.OnClickListener 
         recyclerEvents = (RecyclerView) view.findViewById(R.id.exploreEventsRecyclerView);
         recyclerEvents.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerEvents.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        EventRV_Adapter adapter = new EventRV_Adapter(getContext(),eventArrayList);
+        EventRV_Adapter adapter = new EventRV_Adapter(getContext(),eventArrayList,listener);
         recyclerEvents.setAdapter(adapter);
         final SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.exploreEventsSwipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -65,13 +71,13 @@ public class EventListFragment extends Fragment implements View.OnClickListener 
                     public void onSuccess(String response, Object o) {
                         DataManager.getInstance().setFutureEventsList(new ArrayList<>((ArrayList<Event>)o));
                         eventArrayList = (ArrayList<Event>) DataManager.getInstance().getFutureEventsList();
-                        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),eventArrayList));
+                        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),eventArrayList,listener));
                         swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onFailure() {
-                        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),eventArrayList));
+                        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),eventArrayList,listener));
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });
@@ -97,7 +103,7 @@ public class EventListFragment extends Fragment implements View.OnClickListener 
                 filteredArraylist.add(e);
             }
         }
-        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),filteredArraylist));
+        recyclerEvents.setAdapter(new EventRV_Adapter(getContext(),filteredArraylist,listener));
     }
 
     @Override

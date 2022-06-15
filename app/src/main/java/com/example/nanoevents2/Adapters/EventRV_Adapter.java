@@ -19,22 +19,26 @@ import com.example.nanoevents2.persistence.MyAPISingleton;
 
 import java.util.ArrayList;
 
-public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventViewHolder> implements View.OnClickListener {
+public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventViewHolder> {
 
     ArrayList<Event> eventArrayList;
-    private View.OnClickListener listener;
+    final EventRV_Adapter.OnItemClickListener listener;
     private Context context;
 
-    public EventRV_Adapter(Context context,ArrayList<Event> eventArrayList) {
+    public interface OnItemClickListener{
+        void onItemClick(Event event);
+    }
+
+    public EventRV_Adapter(Context context,ArrayList<Event> eventArrayList,EventRV_Adapter.OnItemClickListener listener) {
         this.context = context;
         this.eventArrayList = eventArrayList;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card, parent, false);
-        view.setOnClickListener(this);
         return new EventViewHolder(view);
     }
 
@@ -55,21 +59,16 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
                 holder.photo.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
             }
         });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClick(eventArrayList.get(holder.getBindingAdapterPosition()));
+            }
+        });
     }
 
     public int getItemCount() {
         return eventArrayList.size();
-    }
-
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
-    }
-
-    @Override
-    public void onClick(View v) {
-        if (listener != null) {
-            listener.onClick(v);
-        }
     }
 
     protected class EventViewHolder extends RecyclerView.ViewHolder {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.nanoevents2.Adapters.EventRV_Adapter;
 import com.example.nanoevents2.Adapters.MyEventsAdapter;
 import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
@@ -29,11 +30,15 @@ import java.util.List;
 
 public class MyEventFragment extends Fragment {
 
-    List<Event> eventList;
+    private ArrayList<Event> eventList;
     //add adapter
-    MyEventsAdapter adapter;
     FloatingActionButton fab;
-
+    private final EventRV_Adapter.OnItemClickListener listener = new EventRV_Adapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(Event event) {
+            //Open Individual Event View
+        }
+    };
 
     public static MyEventFragment newInstance() { return new MyEventFragment();
     }
@@ -47,29 +52,13 @@ public class MyEventFragment extends Fragment {
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_my_events,container,false);
         getActivity().setTitle("My Events");
-        eventList = new ArrayList<>();
+        eventList = (ArrayList<Event>) DataManager.getInstance().getAllUserEvents();
         eventList.add(new Event("test","hola",""));
-
-        for(Event e: DataManager.getInstance().getAllUserEvents()){
-            System.out.println(e.getName());
-        }
-        // test event
-        //eventList.add(new Event("hola","hola","hola"));
-
-
 
         RecyclerView eventRv = view.findViewById(R.id.myEventsRecyclerView);
         eventRv.setLayoutManager(new LinearLayoutManager(getContext()));
         eventRv.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        adapter = new MyEventsAdapter(eventList, getContext(), new MyEventsAdapter.OnItemClickListener() { // cuando apretes que salga la info del event
-            @Override
-            public void onItemClick(Event event) {
-                // screen con info del event y lo de attend
-                Intent intent = new Intent(getContext(), myEventFrame.class ) ;
-                startActivity(intent);
-            }
-        });
-        eventRv.setAdapter(adapter);
+        eventRv.setAdapter(new EventRV_Adapter(getContext(),eventList,listener));
 
         fab = view.findViewById(R.id.newEventFab);
         fab.setOnClickListener(new View.OnClickListener() {

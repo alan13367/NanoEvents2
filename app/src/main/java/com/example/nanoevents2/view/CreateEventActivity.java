@@ -1,11 +1,13 @@
 package com.example.nanoevents2.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.util.Pair;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.Button;
@@ -43,39 +45,34 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTitle("Creating an Event");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+
+        Toolbar toolbar = findViewById(R.id.createEventToolbar);
+        setSupportActionBar(toolbar);
+
+        // add back arrow to toolbar
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+
+
         List<Event> userEvents = DataManager.getInstance().getAllUserEvents();
 
         // event type spinner
         Spinner spinner= findViewById(R.id.spinnerEventCategory);
-        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.spinnerItems, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-        spinner.setPrompt("title");*/
-        ArrayList<String> modes = new ArrayList<>();
-        modes.add("Sports");
-        modes.add("Business");
-        modes.add("Party");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,modes);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item
+                ,new String[]{"Sports","Business","Cryptos","Games","Fashion","Technology","Party","Education"});
         spinner.setAdapter(adapter);
-
-        // back arrow
-        setContentView(R.layout.activity_create_event);
-        ImageButton goBack = findViewById(R.id.backButtonCreateEvent);
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getBaseContext(),MyEventFragment.class);
-                startActivity(intent);
-            }
-        });
 
 
         // date range
-        dateRangeTxt = findViewById(R.id.dateRangeTxt);
+        dateRangeTxt = findViewById(R.id.dateRangeTextView);
         rangeDatePickBtn = findViewById(R.id.rangeDatePickBtn);
         MaterialDatePicker materialDatePicker = MaterialDatePicker.Builder.dateRangePicker().
                 setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds())).build();
@@ -93,29 +90,29 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         });
 
         // create event
-        eventDescription = findViewById(R.id.setDescriptionEvent);
-        eventName = findViewById(R.id.setTitleEvent);
+        eventDescription = findViewById(R.id.eventDescriptionEdTx);
+        eventName = findViewById(R.id.eventTitleEdTx);
         createEventBtn = findViewById(R.id.createEventBtn);
         createEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Event newEvent = new Event(eventName.getText().toString(),eventDescription.getText().toString(),dateRangeTxt.getText().toString());
-                //MyAPISingleton.createEvent();
-                //userEvents.add(newEvent);
-                //DataManager.getInstance().setAllUserEvents(userEvents);
-               /* MyAPISingleton.createEvent(this, eventName.getText().toString(), "", "", "", "", "",
-                        "" ,0, "", new EventVolleyCallback() {
-                    @Override
-                    public void onSuccess(String response, Object o) {
-                        //userEvents=(List<Event>) o;
-                    }
-                });*/
+
             }
         });
 
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle arrow click here
+        if (item.getItemId() == android.R.id.home) {
+            finish(); // close this activity and return to preview activity (if there is any)
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 
     //spinner item select

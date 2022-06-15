@@ -10,8 +10,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
+import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.MyAPISingleton;
 
 import java.util.ArrayList;
 
@@ -19,9 +23,10 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
 
     ArrayList<Event> eventArrayList;
     private View.OnClickListener listener;
+    private Context context;
 
-    public EventRV_Adapter(ArrayList<Event> eventArrayList) {
-
+    public EventRV_Adapter(Context context,ArrayList<Event> eventArrayList) {
+        this.context = context;
         this.eventArrayList = eventArrayList;
     }
 
@@ -35,9 +40,21 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
 
     @Override
     public void onBindViewHolder(EventViewHolder holder, int position) {
-        holder.txtName.setText("fgfg" );
-        holder.txtDescription.setText(eventArrayList.get(position).getDescription());
-        //holder.photo.setImageResource(eventArrayList.get(position).getId());
+        Event event = eventArrayList.get(position);
+        holder.txtName.setText(event.getName());
+        holder.txtType.setText(event.getType());
+        holder.txtDate.setText(event.getDate());
+        MyAPISingleton.getInstance(context).getImageLoader().get(event.getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                holder.photo.setImageBitmap(response.getBitmap());
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                holder.photo.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
+            }
+        });
     }
 
     public int getItemCount() {
@@ -54,17 +71,17 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
             listener.onClick(v);
         }
     }
-// VIEW HOLDER
 
     protected class EventViewHolder extends RecyclerView.ViewHolder {
-        public TextView txtName, txtDescription;
+        public TextView txtName,txtType,txtDate;
         public ImageView photo;
 
         public EventViewHolder(View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.eventNameId);
-            txtDescription = itemView.findViewById(R.id.eventDescription);
             photo = itemView.findViewById(R.id.eventImage);
+            txtType = itemView.findViewById(R.id.eventType);
+            txtDate = itemView.findViewById(R.id.eventDate);
         }
     }
 

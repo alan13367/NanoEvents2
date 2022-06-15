@@ -247,7 +247,7 @@ public class MyAPISingleton {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT,
                 users_base_url,parametersToModify,
                 response -> {
-                    userVolleyCallback.onSuccess(response.toString(),null);
+                    userVolleyCallback.onSuccess(response.toString(),response);
                 }, error -> {
             userVolleyCallback.onFailure();
         }){

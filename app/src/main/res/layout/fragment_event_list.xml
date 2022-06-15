@@ -1,15 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkblue"
     tools:context=".view.fragments.EventListFragment">
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/mainRecyclerID"
+
+    <HorizontalScrollView
+        android:id="@+id/buttonsLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/bSports"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sports"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true" />
+            <Button
+                android:id="@+id/bCryptos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/cryptos"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bParty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/party"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bBusiness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/business"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bGames"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/games"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bFashion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fashion"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bTechnology"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/technology"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+            <Button
+                android:id="@+id/bEducation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/education"
+                android:backgroundTint="@color/blue"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:focusable="true"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/exploreEventsSwipeRefresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonsLayout">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/exploreEventsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</RelativeLayout>

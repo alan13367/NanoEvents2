@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageLoader;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.model.entities.user.UserStatistics;
@@ -25,6 +27,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MyProfileFragment extends Fragment {
 
+    private TextView nameTextView;
+    private TextView emailTextView;
+    private CircleImageView imageView;
     public MyProfileFragment() {
         // Required empty public constructor
 
@@ -47,11 +52,12 @@ public class MyProfileFragment extends Fragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.activity_user_profile, container
                 ,false);
         User user = DataManager.getInstance().getUser();
-        ((CircleImageView)view.findViewById(R.id.imgUser)).setImageBitmap(DataManager.getInstance().getUserProfileImage());
-        TextView name = view.findViewById(R.id.nameProfile);
-        name.setText(new StringBuilder().append(user.getName()).append(" ").append(user.getLast_name()).toString());
-        ((TextView)view.findViewById(R.id.emailProfile)).setText(user.getEmail());
-
+        imageView =view.findViewById(R.id.imgUser);
+        imageView.setImageBitmap(DataManager.getInstance().getUserProfileImage());
+        nameTextView = view.findViewById(R.id.nameProfile);
+        nameTextView.setText(new StringBuilder().append(user.getName()).append(" ").append(user.getLast_name()).toString());
+        emailTextView = view.findViewById(R.id.emailProfile);
+        emailTextView.setText(user.getEmail());
         MyAPISingleton.getUserStatistics(getContext(), user.getId(), new UserVolleyCallback() {
             @Override
             public void onSuccess(String response, Object o) {
@@ -74,5 +80,36 @@ public class MyProfileFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        User user = DataManager.getInstance().getUser();
+        MyAPISingleton.getInstance(getContext()).getImageLoader().get(DataManager.getInstance()
+                .getUser().getImage(), new ImageLoader.ImageListener() {
+            @Override
+            public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
+                DataManager.getInstance().setUserProfileImage(response.getBitmap());
+                imageView.setImageBitmap(DataManager.getInstance().getUserProfileImage());
+                nameTextView.setText(new StringBuilder()
+                        .append(user.getName())
+                        .append(" ")
+                        .append(user.getLast_name()).toString());
+                emailTextView.setText(user.getEmail());
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                DataManager.getInstance().setUserProfileImage(DataManager.getInstance().getDefaultProfileImage());
+                imageView.setImageBitmap(DataManager.getInstance().getUserProfileImage());
+                nameTextView.setText(new StringBuilder()
+                        .append(user.getName())
+                        .append(" ")
+                        .append(user.getLast_name()).toString());
+                emailTextView.setText(user.getEmail());
+            }
+        });
+
     }
 }

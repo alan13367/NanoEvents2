@@ -157,6 +157,9 @@ public class ChatActivity extends AppCompatActivity {
         handler.removeCallbacksAndMessages(null);
         this.finish();
     }
+
+
+
     private void refreshChat(){
         MyAPISingleton.getInstance(getApplicationContext())
                 .getMessagesChatFromUser(receiverUser.getId(),loadMessages);

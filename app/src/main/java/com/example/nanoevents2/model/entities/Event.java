@@ -39,4 +39,32 @@ public class Event {
     public String getDate() {
         return date;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getOwner_id() {
+        return owner_id;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getEventStart_date() {
+        return eventStart_date;
+    }
+
+    public String getEventEnd_date() {
+        return eventEnd_date;
+    }
+
+    public int getN_participators() {
+        return n_participators;
+    }
+
+    public String getType() {
+        return type;
+    }
 }

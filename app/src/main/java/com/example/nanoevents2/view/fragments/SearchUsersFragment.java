@@ -58,8 +58,7 @@ public class SearchUsersFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.searchUsersRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext()
-                , DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         userSearch = new ArrayList<>();
         recyclerView.setAdapter(new UserItemAdapter(userSearch,getContext(),View.VISIBLE,View.GONE
                 ,"Add","",listener));

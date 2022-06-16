@@ -47,7 +47,7 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
         Event event = eventArrayList.get(position);
         holder.txtName.setText(event.getName());
         holder.txtType.setText(event.getType());
-        holder.txtDate.setText(event.getDate());
+        holder.txtDate.setText(event.getDateFormat(event.getDate()));
         MyAPISingleton.getInstance(context).getImageLoader().get(event.getImage(), new ImageLoader.ImageListener() {
             @Override
             public void onResponse(ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -56,7 +56,7 @@ public class EventRV_Adapter extends RecyclerView.Adapter<EventRV_Adapter.EventV
 
             @Override
             public void onErrorResponse(VolleyError error) {
-                holder.photo.setImageBitmap(DataManager.getInstance().getDefaultProfileImage());
+                holder.photo.setImageBitmap(DataManager.getInstance().getDefaultEventImage());
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {

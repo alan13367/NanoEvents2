@@ -667,7 +667,7 @@ public class MyAPISingleton {
         getInstance(context).addToRequestQueue(jsonObjectRequest);
     }
 
-    public static void editEventAssistanceById(Context context,int eventId,int puntuation
+    public static void rateEventById(Context context,int eventId,int puntuation
             ,String commentary,final EventVolleyCallback eventVolleyCallback){
         JsonBuilder builder = new JsonBuilder();
         if(puntuation != -1){

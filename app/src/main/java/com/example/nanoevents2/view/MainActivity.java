@@ -60,8 +60,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         TextView navEmail = (TextView) headerView.findViewById(R.id.emailDrawerHeader);
         navEmail.setText(u.getEmail());
         CircleImageView navImage = headerView.findViewById(R.id.userProfileImage);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.default_profile);
-        DataManager.getInstance().setDefaultProfileImage(bitmap);
+        DataManager.getInstance().setDefaultProfileImage(BitmapFactory.decodeResource(getResources(), R.drawable.default_profile));
+        DataManager.getInstance().setDefaultEventImage(BitmapFactory.decodeResource(getResources(), R.drawable.defaultplaceholder));
         MyAPISingleton.getInstance(getApplicationContext()).getImageLoader().get(u.getImage()
                 , new ImageLoader.ImageListener() {
             @Override

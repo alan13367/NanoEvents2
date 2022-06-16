@@ -14,6 +14,7 @@ public class DataManager {
     private User user;
     private Bitmap userProfileImage;
     private Bitmap defaultProfileImage;
+    private Bitmap defaultEventImage;
     private List<User> friends;
     private List<Event> futureEventsList;
     private List<User> friendRequests;
@@ -95,6 +96,14 @@ public class DataManager {
         if(!exists){
             usersMyMessagesUsers.add(user);
         }
+    }
+
+    public Bitmap getDefaultEventImage() {
+        return defaultEventImage;
+    }
+
+    public void setDefaultEventImage(Bitmap defaultEventImage) {
+        this.defaultEventImage = defaultEventImage;
     }
 
     public List<User> getFriends() {

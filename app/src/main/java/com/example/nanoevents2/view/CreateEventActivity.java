@@ -55,6 +55,7 @@ public class CreateEventActivity extends AppCompatActivity implements DatePicker
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         types = new ArrayList<>();
+        types.add("");
         types.add("Sports");
         types.add("Business");
         types.add("Cryptos");

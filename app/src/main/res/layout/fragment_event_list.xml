@@ -6,11 +6,26 @@
     android:background="@color/darkblue"
     tools:context=".view.fragments.ExploreEventsFragment">
 
+    <EditText
+        android:id="@+id/searchEventsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/rounded_edittext"
+        android:hint="@string/enter_the_name_of_the_event_you_want_to_search"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="10dip" />
+
     <HorizontalScrollView
         android:id="@+id/buttonsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scrollbars="none" >
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:scrollbars="none"
+        android:layout_below="@+id/searchEventsEditText">
 
         <LinearLayout
             android:layout_width="wrap_content"

@@ -1,6 +1,8 @@
 package com.example.nanoevents2.model.entities;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private int id;
     private String name;
     private int owner_id;
@@ -38,6 +40,15 @@ public class Event {
 
     public String getDate() {
         return date;
+    }
+
+    public String getDateFormat(String date){
+        String[] split = date.split("T");
+        return split[0];
+    }
+    public String getTimeFormat(String date){
+        String[] split = date.split("T");
+        return split[1];
     }
 
     public int getId() {

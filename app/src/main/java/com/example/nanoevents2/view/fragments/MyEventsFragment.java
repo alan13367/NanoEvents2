@@ -27,12 +27,13 @@ public class MyEventsFragment extends Fragment {
 
     private ArrayList<Event> eventList;
     //add adapter
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
     private final EventRV_Adapter.OnItemClickListener listener = new EventRV_Adapter.OnItemClickListener() {
         @Override
         public void onItemClick(Event event) {
             //Open Individual Event View
             Intent intent = new Intent(getContext(), EventViewActivity.class);
+            intent.putExtra("Event",event);
             startActivity(intent);
         }
     };
@@ -50,7 +51,6 @@ public class MyEventsFragment extends Fragment {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_my_events,container,false);
         getActivity().setTitle("My Events");
         eventList = (ArrayList<Event>) DataManager.getInstance().getAllUserEvents();
-        eventList.add(new Event("test","hola",""));
 
         RecyclerView eventRv = view.findViewById(R.id.myEventsRecyclerView);
         eventRv.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -47,7 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/eventImage"
         android:layout_marginStart="12dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="12dp"
         android:scrollbars="none">
 
@@ -57,12 +57,27 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/eventDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date End Date"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/eventStartEndDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Start Date End Date"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <TextView
                 android:id="@+id/eventDetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Start Date End Date\nNumber Participants: 20"
+                android:text="Number Participants: 20"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/eventDescription"
@@ -87,6 +102,7 @@
         android:layout_marginEnd="12dp"
         android:orientation="horizontal">
         <Button
+            android:id="@+id/attendButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
@@ -96,6 +112,7 @@
             android:text="@string/attend"
             android:backgroundTint="@color/blue"/>
         <Button
+            android:id="@+id/ratingButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"

@@ -73,4 +73,7 @@ In ultricies eget metus ac dapibus. Sed rutrum eros risus, vitae pharetra mauris
 
 In dictum purus vel leo tincidunt, tristique mattis tellus ultricies. Proin sit amet laoreet nulla, a tincidunt diam. Nullam aliquet nisl est, sed tristique ligula pretium a. Etiam scelerisque consectetur ipsum vel maximus. Pellentesque dapibus nisi ac nibh rhoncus lobortis. In molestie metus non eros sagittis elementum. Donec nunc sem, finibus finibus libero eu, accumsan mattis mauris. Etiam egestas, ante id pellentesque dapibus, nisi purus tincidunt purus, eu volutpat ex arcu in odio.</string>
     <string name="attend">Attend</string>
+    <string name="enter_the_name_of_the_event_you_want_to_search">Enter the Name of the Event to Search</string>
+    <string name="enter_your_review_here">Enter Your Review Here</string>
+    <string name="delete">Delete</string>
 </resources>

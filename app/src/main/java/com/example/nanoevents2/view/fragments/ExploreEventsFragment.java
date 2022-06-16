@@ -11,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.nanoevents2.Adapters.EventRV_Adapter;
 
@@ -23,7 +22,7 @@ import com.example.nanoevents2.persistence.MyAPISingleton;
 
 import java.util.ArrayList;
 
-public class EventListFragment extends Fragment implements View.OnClickListener {
+public class ExploreEventsFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerEvents ;
     private ArrayList<Event> eventArrayList;
@@ -35,12 +34,12 @@ public class EventListFragment extends Fragment implements View.OnClickListener 
         }
     };
 
-    public EventListFragment() {
+    public ExploreEventsFragment() {
         // Required empty public constructor
     }
 
-    public static EventListFragment newInstance() {
-       return new EventListFragment();
+    public static ExploreEventsFragment newInstance() {
+       return new ExploreEventsFragment();
     }
 
     @Override

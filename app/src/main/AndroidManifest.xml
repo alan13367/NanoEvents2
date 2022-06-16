@@ -14,7 +14,7 @@
         android:theme="@style/Theme.NanoEvents2"
         android:usesCleartextTraffic="true" >
         <activity
-            android:name=".EventView"
+            android:name=".view.EventViewActivity"
             android:exported="false" />
         <activity
             android:name=".view.CreateEventActivity"

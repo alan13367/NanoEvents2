@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkblue"
-    tools:context=".view.fragments.EventListFragment">
+    tools:context=".view.fragments.ExploreEventsFragment">
 
     <HorizontalScrollView
         android:id="@+id/buttonsLayout"

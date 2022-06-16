@@ -18,6 +18,7 @@ import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.view.CreateEventActivity;
+import com.example.nanoevents2.view.EventViewActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class MyEventsFragment extends Fragment {
         @Override
         public void onItemClick(Event event) {
             //Open Individual Event View
+            Intent intent = new Intent(getContext(), EventViewActivity.class);
+            startActivity(intent);
         }
     };
 

@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.nanoevents2.R;
 
-public class myEventFrame extends AppCompatActivity {
+public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_event_frame);
+        setContentView(R.layout.activity_user_profile);
     }
 }

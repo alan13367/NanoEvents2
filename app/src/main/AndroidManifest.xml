@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.nanoevents2">
+    package="com.example.nanoevents2" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,12 +12,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.NanoEvents2"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true" >
+        <activity
+            android:name=".EventView"
+            android:exported="false" />
         <activity
             android:name=".view.CreateEventActivity"
             android:exported="false" />
         <activity
-            android:name=".view.UserProfile"
+            android:name=".view.UserProfileActivity"
             android:exported="false" />
         <activity
             android:name=".view.EditProfileActivity"
@@ -31,14 +34,12 @@
         <activity
             android:name=".view.SignUpActivity"
             android:exported="false" />
-        <activity android:name=".view.myEventFrame"
-            android:exported="false"/>
         <activity
             android:name=".view.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".view.SplashActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +48,7 @@
         </activity>
         <activity
             android:name=".view.MainActivity"
-            android:exported="true"/>
+            android:exported="true" />
     </application>
 
 </manifest>

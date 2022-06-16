@@ -14,21 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.nanoevents2.Adapters.EventRV_Adapter;
-import com.example.nanoevents2.Adapters.MyEventsAdapter;
-import com.example.nanoevents2.Adapters.UserItemAdapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
-import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.DataManager;
-import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.view.CreateEventActivity;
-import com.example.nanoevents2.view.myEventFrame;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MyEventFragment extends Fragment {
+public class MyEventsFragment extends Fragment {
 
     private ArrayList<Event> eventList;
     //add adapter
@@ -40,7 +34,7 @@ public class MyEventFragment extends Fragment {
         }
     };
 
-    public static MyEventFragment newInstance() { return new MyEventFragment();
+    public static MyEventsFragment newInstance() { return new MyEventsFragment();
     }
 
     @Override

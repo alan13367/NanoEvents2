@@ -20,7 +20,6 @@ import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.persistence.UserVolleyCallback;
 import com.example.nanoevents2.view.EditProfileActivity;
-import com.example.nanoevents2.view.UserProfile;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 

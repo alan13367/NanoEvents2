@@ -10,12 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.EventVolleyCallback;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 
 public class EventViewActivity extends AppCompatActivity {
@@ -74,6 +76,7 @@ public class EventViewActivity extends AppCompatActivity {
         if(event.getOwner_id() == DataManager.getInstance().getUser().getId()){
             ((Button)findViewById(R.id.ratingButton)).setText(R.string.delete);
             ((Button)findViewById(R.id.ratingButton)).setBackgroundColor(getResources().getColor(R.color.red));
+            ((Button)findViewById(R.id.attendButton)).setVisibility(View.GONE);
         }
         ((Button)findViewById(R.id.ratingButton)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,10 +84,37 @@ public class EventViewActivity extends AppCompatActivity {
                 if(event.getOwner_id() != DataManager.getInstance().getUser().getId()){
                     Intent intent = new Intent(getApplicationContext(),EventRatingActivity.class);
                     intent.putExtra("EventId",event.getId());
+                    intent.putExtra("Title",event.getName());
                     startActivity(intent);
                 }else{
                     //Delete Event
+                    MyAPISingleton.deleteEvent(getApplicationContext(), event.getId(), new EventVolleyCallback() {
+                        @Override
+                        public void onSuccess(String response, Object o) {
+                            finish();
+                        }
+                    });
                 }
+            }
+        });
+
+        ((Button)findViewById(R.id.attendButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyAPISingleton.assistToEventById(getApplicationContext(), event.getId(), new EventVolleyCallback() {
+                    @Override
+                    public void onSuccess(String response, Object o) {
+                        Toast.makeText(EventViewActivity.this
+                                , "Successfully registered assistance to this Event.", Toast.LENGTH_SHORT).show();
+                        DataManager.getInstance().getUserEventAssistance().add(event);
+                    }
+
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(EventViewActivity.this
+                                , "Couldn't register the assistance to this Event.", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

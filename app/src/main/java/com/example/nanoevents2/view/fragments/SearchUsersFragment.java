@@ -1,5 +1,6 @@
 package com.example.nanoevents2.view.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.user.User;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.persistence.UserVolleyCallback;
+import com.example.nanoevents2.view.UserProfileActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +93,9 @@ public class SearchUsersFragment extends Fragment {
         listener = new UserItemAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(User user) {
-                //Click on user
+                Intent intent = new Intent(getContext(), UserProfileActivity.class);
+                intent.putExtra("User",user);
+                startActivity(intent);
             }
         };
 

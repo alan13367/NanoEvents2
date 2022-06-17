@@ -16,17 +16,33 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
+    <TextView
+        android:id="@+id/ratingEventTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ratingEventToolbar"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="30sp"
+        android:layout_marginEnd="12dp"
+        android:gravity="center"
+        android:text="Event Title"
+        android:textColor="@color/white"
+        android:textSize="40sp" />
+
+
     <RatingBar
         android:id="@+id/eventRatingBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ratingEventToolbar"
+        android:layout_below="@+id/ratingEventTitle"
         android:layout_marginStart="12dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="12dp"
-        android:numStars="5" />
+        android:numStars="5"
+        android:backgroundTint="@color/yellow"/>
 
     <EditText
+        android:id="@+id/reviewEditText"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/eventRatingBar"
@@ -37,5 +53,16 @@
         android:gravity="center"
         android:background="@drawable/rounded_edittext"
         android:backgroundTint="@color/blueCatSalud" />
+
+    <Button
+        android:id="@+id/reviewButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reviewEditText"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="12dp"
+        android:text="@string/rate" />
 
 </RelativeLayout>

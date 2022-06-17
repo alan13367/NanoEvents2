@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.example.nanoevents2.persistence.DataManager;
 import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.persistence.UserVolleyCallback;
 import com.example.nanoevents2.view.EditProfileActivity;
+import com.example.nanoevents2.view.EventAssistanceActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -74,6 +76,15 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), EditProfileActivity.class);
+                i.putExtra("User",user);
+                startActivity(i);
+            }
+        });
+
+        ((Button)view.findViewById(R.id.profileEventAssistancesButton)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getContext(), EventAssistanceActivity.class);
                 i.putExtra("User",user);
                 startActivity(i);
             }

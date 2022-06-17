@@ -25,6 +25,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MyAPISingleton {
@@ -138,7 +139,14 @@ public class MyAPISingleton {
                                                                             @Override
                                                                             public void onSuccess(String response, Object o) {
                                                                                 DataManager.getInstance().setAllUserEvents((ArrayList<Event>) o);
-                                                                                userVolleyCallback.onSuccess(accessToken, null);
+                                                                                getUserEventsAssistance(context, DataManager.getInstance().getUser().getId(), Event.FUTURE_EVENT, new EventVolleyCallback() {
+                                                                                    @Override
+                                                                                    public void onSuccess(String response, Object o) {
+                                                                                        DataManager.getInstance().setUserEventAssistance((List<Event>) o);
+                                                                                        userVolleyCallback.onSuccess(accessToken, null);
+                                                                                    }
+                                                                                });
+
                                                                             }
                                                                         });
                                                                 }
@@ -334,7 +342,7 @@ public class MyAPISingleton {
                 url = users_base_url+"/"+userId+"/assistances";
                 break;
             case Event.FUTURE_EVENT:
-                url = users_base_url+"/"+userId+"assistances/future";
+                url = users_base_url+"/"+userId+"/assistances/future";
                 break;
             case Event.FINISHED_EVENT:
                 url = users_base_url+"/"+userId+"assistances/finished";

@@ -76,4 +76,6 @@ In dictum purus vel leo tincidunt, tristique mattis tellus ultricies. Proin sit 
     <string name="enter_the_name_of_the_event_you_want_to_search">Enter the Name of the Event to Search</string>
     <string name="enter_your_review_here">Enter Your Review Here</string>
     <string name="delete">Delete</string>
+    <string name="rate">Submit Review</string>
+    <string name="see_event_assistances">See Event Assistances</string>
 </resources>

@@ -20,6 +20,7 @@ public class DataManager {
     private List<User> friendRequests;
     private List<User> usersMyMessagesUsers;
     private List<Event> allUserEvents;
+    private List<Event> userEventAssistance;
 
     private DataManager(){
         futureEventsList = new ArrayList<>();
@@ -27,6 +28,7 @@ public class DataManager {
         friendRequests = new ArrayList<>();
         usersMyMessagesUsers = new ArrayList<>();
         allUserEvents = new ArrayList<>();
+        userEventAssistance = new ArrayList<>();
     }
 
 
@@ -75,6 +77,14 @@ public class DataManager {
 
     public void setFriendRequestsList(List<User> friendRequests){
         this.friendRequests = friendRequests;
+    }
+
+    public List<Event> getUserEventAssistance() {
+        return userEventAssistance;
+    }
+
+    public void setUserEventAssistance(List<Event> userEventAssistance) {
+        this.userEventAssistance = userEventAssistance;
     }
 
     public List<User> getUsersMyMessagesUsers() {

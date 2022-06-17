@@ -17,15 +17,19 @@ import com.example.nanoevents2.Adapters.EventRV_Adapter;
 import com.example.nanoevents2.R;
 import com.example.nanoevents2.model.entities.Event;
 import com.example.nanoevents2.persistence.DataManager;
+import com.example.nanoevents2.persistence.EventVolleyCallback;
+import com.example.nanoevents2.persistence.MyAPISingleton;
 import com.example.nanoevents2.view.CreateEventActivity;
 import com.example.nanoevents2.view.EventViewActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MyEventsFragment extends Fragment {
 
     private ArrayList<Event> eventList;
+    private RecyclerView eventRv;
     //add adapter
     private FloatingActionButton fab;
     private final EventRV_Adapter.OnItemClickListener listener = new EventRV_Adapter.OnItemClickListener() {
@@ -52,7 +56,7 @@ public class MyEventsFragment extends Fragment {
         getActivity().setTitle("My Events");
         eventList = (ArrayList<Event>) DataManager.getInstance().getAllUserEvents();
 
-        RecyclerView eventRv = view.findViewById(R.id.myEventsRecyclerView);
+        eventRv = view.findViewById(R.id.myEventsRecyclerView);
         eventRv.setLayoutManager(new LinearLayoutManager(getContext()));
         eventRv.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         eventRv.setAdapter(new EventRV_Adapter(getContext(),eventList,listener));
@@ -67,6 +71,20 @@ public class MyEventsFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        MyAPISingleton.getEventsFromUser(getContext(), DataManager.getInstance().getUser().getId()
+                , Event.ALL_EVENTS, new EventVolleyCallback() {
+            @Override
+            public void onSuccess(String response, Object o) {
+                DataManager.getInstance().setAllUserEvents((List<Event>) o);
+                eventList = (ArrayList<Event>)o;
+                eventRv.setAdapter(new EventRV_Adapter(getContext(),eventList,listener));
+            }
+        });
+        super.onResume();
     }
 
 

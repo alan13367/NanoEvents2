@@ -33,9 +33,9 @@ import java.util.List;
  */
 public class MyMessagesFragment extends Fragment {
 
-    FloatingActionButton fab;
-    List<User> myMessagesChats;
-    UserItemAdapter adapter;//DataManager.getInstance().getUsersMyMessagesUsers();
+    private FloatingActionButton fab;
+    private List<User> myMessagesChats;
+    private UserItemAdapter adapter;
 
     public MyMessagesFragment() {
         // Required empty public constructor

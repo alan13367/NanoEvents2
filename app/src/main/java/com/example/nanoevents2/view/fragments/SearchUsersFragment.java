@@ -33,7 +33,11 @@ public class SearchUsersFragment extends Fragment {
     private RecyclerView recyclerView;
     private EditText searchBox;
     private List<User> userSearch;
-    private UserItemAdapter.OnItemClickListener listener;
+    private final UserItemAdapter.OnItemClickListener listener = user -> {
+        Intent intent = new Intent(getContext(), UserProfileActivity.class);
+        intent.putExtra("User",user);
+        startActivity(intent);
+    };
 
 
     public SearchUsersFragment() {
@@ -90,14 +94,6 @@ public class SearchUsersFragment extends Fragment {
             }
         });
 
-        listener = new UserItemAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(User user) {
-                Intent intent = new Intent(getContext(), UserProfileActivity.class);
-                intent.putExtra("User",user);
-                startActivity(intent);
-            }
-        };
 
         return view;
 

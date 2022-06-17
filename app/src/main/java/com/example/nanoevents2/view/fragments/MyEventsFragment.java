@@ -30,16 +30,12 @@ public class MyEventsFragment extends Fragment {
 
     private ArrayList<Event> eventList;
     private RecyclerView eventRv;
-    //add adapter
     private FloatingActionButton fab;
-    private final EventRV_Adapter.OnItemClickListener listener = new EventRV_Adapter.OnItemClickListener() {
-        @Override
-        public void onItemClick(Event event) {
-            //Open Individual Event View
-            Intent intent = new Intent(getContext(), EventViewActivity.class);
-            intent.putExtra("Event",event);
-            startActivity(intent);
-        }
+    private final EventRV_Adapter.OnItemClickListener listener = event -> {
+        //Open Individual Event View
+        Intent intent = new Intent(getContext(), EventViewActivity.class);
+        intent.putExtra("Event",event);
+        startActivity(intent);
     };
 
     public static MyEventsFragment newInstance() { return new MyEventsFragment();
